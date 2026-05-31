@@ -9,10 +9,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif;min-height:100vh;padding:0 0 60px}
 .page{max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
-.header{padding:32px 24px 20px;text-align:center}
-.header h1{font-size:22px;font-weight:500;letter-spacing:.15em;color:#1a1a1a}
+.header{padding:32px 24px 20px;text-align:center;position:relative}
+.lang-btn{position:absolute;top:32px;right:20px;font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
+.lang-btn:hover{color:#555;border-color:#bbb}
 .input-area{padding:0 20px 20px}
-.input-note{font-size:12px;color:#999;margin-bottom:16px;line-height:1.6}
+.input-note{font-size:13px;color:#777;margin-bottom:16px;line-height:1.6}
 .input-row{display:flex;gap:10px;margin-bottom:10px}
 .input-group{display:flex;flex-direction:column;gap:4px}
 .input-group label{font-size:11px;color:#999;letter-spacing:.05em}
@@ -21,7 +22,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .input-group input::placeholder{color:#ccc}
 .input-group.date{flex:3}
 .input-group.time{flex:2}
-.calc-btn{width:100%;padding:13px;background:#fff;border:1px solid #bbb;border-radius:8px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:15px;color:#555;letter-spacing:.2em;cursor:pointer;margin-top:4px;transition:all .15s}
+.calc-btn{width:100%;padding:13px;background:#fff;border:1px solid #bbb;border-radius:8px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:13px;color:#555;letter-spacing:.2em;cursor:pointer;margin-top:4px;transition:all .15s}
 .calc-btn:hover{background:#f0f0f0;border-color:#999}
 .tabs{display:flex;border-bottom:1px solid #e8e8e8}
 .tab{flex:1;padding:12px 4px;font-size:13px;letter-spacing:.05em;text-align:center;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
@@ -56,7 +57,6 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .sign{font-size:13px;color:#999;margin-right:1px;font-family:'MPLUS1Code',monospace}
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
-/* Flow Year Table */
 .flow-year-table{padding:12px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif}
 .fyt-group{margin-bottom:16px;padding:0 12px;overflow-x:auto}
@@ -77,25 +77,32 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .error{padding:20px;color:#c0392b;font-size:13px;text-align:center}
 .hidden{display:none}
 .panel{display:none}.panel.active{display:block}
-.rainbow-title{background:linear-gradient(90deg,#e74c3c,#e67e22,#f1c40f,#2ecc71,#3498db,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;letter-spacing:.15em}
+.rainbow-title{background:linear-gradient(90deg,#e74c3c 0%,#e74c3c 5%,#e67e22 22%,#f1c40f 40%,#2ecc71 58%,#3498db 78%,#9b59b6 95%,#9b59b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;letter-spacing:.03em;font-size:22px;font-weight:500}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header"><h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5"><svg width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg><span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a">計算器</span></h1><div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div></div>
+  <div class="header">
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5">
+      <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg><span id="titleMain" class="rainbow-title" style="display:none"></span>
+      <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
+    </h1>
+    <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
+  </div>
   <div class="input-area">
-    <div class="input-note">輸入西元生日（農曆生日會自動轉換）</div>
+    <div class="input-note" id="inputNote">輸入西元生日（農曆生日會自動轉換）</div>
     <div class="input-row">
       <div class="input-group date">
-        <label>生日</label>
+        <label id="labelDate">生日</label>
         <input type="text" id="dateInput" placeholder="xxxx/xx/xx" maxlength="10">
       </div>
       <div class="input-group" style="flex:1">
-        <label>時（選填）</label>
+        <label id="labelHour">時（選填）</label>
         <input type="number" id="hourInput" placeholder="xx" min="0" max="23">
       </div>
       <div class="input-group" style="flex:1">
-        <label>分（選填）</label>
+        <label id="labelMin">分（選填）</label>
         <input type="number" id="minInput" placeholder="xx" min="0" max="59">
       </div>
     </div>
@@ -104,16 +111,16 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   <div id="errorMsg" class="error hidden"></div>
   <div id="mainResult" class="hidden">
     <div class="tabs">
-      <div class="tab active" onclick="switchTab(0)">五大階段數</div>
-      <div class="tab" onclick="switchTab(1)">國曆流年表</div>
-      <div class="tab" onclick="switchTab(2)">農曆流年表</div>
+      <div class="tab active" onclick="switchTab(0)" id="tab0">五大階段數</div>
+      <div class="tab" onclick="switchTab(1)" id="tab1">國曆流年表</div>
+      <div class="tab" onclick="switchTab(2)" id="tab2">農曆流年表</div>
     </div>
     <div class="results">
       <div class="panel active" id="panel0">
         <div class="cal-section" id="gregSection"></div>
         <div class="cal-section" id="lunSection"></div>
         <div class="innate-section">
-          <div class="innate-title">先天數</div>
+          <div class="innate-title" id="innateTitle">先天數</div>
           <div class="innate-row" id="gregInnate"></div>
           <div class="innate-row" id="lunInnate"></div>
         </div>
@@ -126,13 +133,77 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     </div>
   </div>
   <div style="text-align:center;padding:24px 20px 8px;font-family:'M PLUS Rounded 1c',sans-serif">
-    <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
+    <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
     © 2026 Eric Cheng / 樹根樹洞　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none">@eric.hypnotist</a>
   </div>
 </div>
 <script>
+// ── i18n ──────────────────────────────────────────────────────
+const T={
+  zh:{
+    titleMain:'彩虹數字', titleSub:'計算器',
+    today:'今天',
+    inputNote:'輸入西元生日（農曆生日會自動轉換）',
+    labelDate:'生日', labelHour:'時（選填）', labelMin:'分（選填）',
+    tab0:'五大階段數', tab1:'國曆流年表', tab2:'農曆流年表',
+    innateTitle:'先天數',
+    errDate:'請輸入正確的西元生日', errLunar:'農曆換算失敗，請確認年份範圍',
+    greg:'國曆', lun:'農曆', leap:'(閏)',
+    stages:['幼年','少年','青年','中年','老年'],
+    flowYear:'流年', flowMonth:'流月', flowDay:'流日',
+    flowTableGreg:'國曆 (+) 九年能量波動表', flowTableLun:'農曆 (-) 九年能量波動表',
+    coffee:'☕ 請我喝杯咖啡',
+    langBtn:'EN'
+  },
+  en:{
+    titleMain:'Rainbow Numerology', titleSub:'Calculator',
+    today:'Today',
+    inputNote:'Enter your birthday',
+    labelDate:'Birthday', labelHour:'Hour (opt)', labelMin:'Min (opt)',
+    tab0:'Life Stages', tab1:'Solar Flow Table', tab2:'Lunar Flow Table',
+    innateTitle:'Innate Numbers',
+    errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
+    greg:'Solar', lun:'Lunar', leap:'(Leap)',
+    stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
+    flowYear:'Year Flow', flowMonth:'Month Flow', flowDay:'Day Flow',
+    flowTableGreg:'Solar (+) Year Flow Chart', flowTableLun:'Lunar (-) Year Flow Chart',
+    coffee:'☕ Buy Me a Coffee',
+    langBtn:'中文'
+  }
+};
+let lang='zh';
+function t(key){return T[lang][key];}
+
+function toggleLang(){
+  lang=lang==='zh'?'en':'zh';
+  applyLang();
+  if(document.getElementById('mainResult').classList.contains('hidden')) return;
+  // re-render if results are shown
+  const dateRaw=document.getElementById('dateInput').value.trim();
+  if(dateRaw) calculate();
+}
+
+function applyLang(){
+  const now=new Date();
+  const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
+  document.getElementById('todayDisplay').textContent=t('today')+'　'+y+'/'+m+'/'+d;
+  document.getElementById('inputNote').textContent=t('inputNote');
+  document.getElementById('labelDate').textContent=t('labelDate');
+  document.getElementById('labelHour').textContent=t('labelHour');
+  document.getElementById('labelMin').textContent=t('labelMin');
+  document.getElementById('tab0').textContent=t('tab0');
+  document.getElementById('tab1').textContent=t('tab1');
+  document.getElementById('tab2').textContent=t('tab2');
+  document.getElementById('innateTitle').textContent=t('innateTitle');
+  document.getElementById('coffeeBtn').textContent=t('coffee');
+  document.getElementById('langBtn').textContent=t('langBtn');
+  // SVG title
+  if(lang==='en'){document.getElementById('titleSvg').style.display='none';const el=document.getElementById('titleMain');el.style.display='block';el.textContent=t('titleMain');}else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleMain').style.display='none';}
+  document.getElementById('titleSub').textContent=t('titleSub');
+}
+
 // ── Lunar ─────────────────────────────────────────────────────
 function jde_new_moon(k){
   const T=k/1236.85,T2=T*T,T3=T2*T,T4=T3*T;
@@ -278,7 +349,15 @@ function calcFlow(y,m,d,targetY,targetM,targetD){
 // ── Render ────────────────────────────────────────────────────
 function p2(n){return n<10?'0'+n:String(n);}
 
-function renderCalSection(el,title,dateStr,y,m,d,h,mn,innate){
+function stageLabel(name){
+  const zhNames=['幼年','少年','青年','中年','老年'];
+  const idx=zhNames.indexOf(name);
+  if(idx===-1) return name;
+  return T[lang].stages[idx];
+}
+
+function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
+  const title=(isGreg?t('greg'):t('lun'))+' ('+(isGreg?'+':'-')+')';
   const{stages}=calcStages(y,m,d,h,mn);
   const hasTime=h!==null,hasMins=mn!==null;
   const cols=hasTime?(hasMins?5:4):3;
@@ -305,7 +384,8 @@ function renderCalSection(el,title,dateStr,y,m,d,h,mn,innate){
   <div class="num-row" style="${colStyle}">${stageCells}</div>`;
 }
 
-function renderInnate(el,innate,label,isLunar){
+function renderInnate(el,innate,isGreg){
+  const label=isGreg?t('greg'):t('lun');
   const counts={};
   for(const n of innate){if(n>0)counts[n]=(counts[n]||0)+1;}
   const sorted=[...innate].sort((a,b)=>a-b);
@@ -333,24 +413,25 @@ function renderFlow(el,gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD){
   el.innerHTML=`
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;width:100%;padding:0 20px;box-sizing:border-box">
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <div class="innate-title" style="margin:0 0 6px">流年</div>
+      <div class="innate-title" style="margin:0 0 6px">${t('flowYear')}</div>
       <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fy,gInnate)}</div>
       <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fy,lInnate)}</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <div class="innate-title" style="margin:0 0 6px">流月</div>
+      <div class="innate-title" style="margin:0 0 6px">${t('flowMonth')}</div>
       <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fm,gInnate)}</div>
       <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fm,lInnate)}</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <div class="innate-title" style="margin:0 0 6px">流日</div>
+      <div class="innate-title" style="margin:0 0 6px">${t('flowDay')}</div>
       <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fd,gInnate)}</div>
       <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fd,lInnate)}</div>
     </div>
   </div>`;
 }
 
-function renderFlowYearTable(el,birthY,birthM,birthD,innate,title){
+function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg){
+  const title=isGreg?t('flowTableGreg'):t('flowTableLun');
   const currentYear=new Date().getFullYear();
   const rows=[];
   for(let age=1;age<=99;age++){
@@ -385,6 +466,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,title){
 }
 
 // ── Main ──────────────────────────────────────────────────────
+let lastCalc=null;
 function calculate(){
   const dateRaw=document.getElementById('dateInput').value.trim();
   const dateParts=dateRaw.split(/[\/\-\.]/);
@@ -399,39 +481,41 @@ function calculate(){
   const main=document.getElementById('mainResult');
   errEl.classList.add('hidden');
   if(!sy||!sm||!sd||sy<1920||sy>2020||sm<1||sm>12||sd<1||sd>31){
-    errEl.textContent='請輸入正確的西元生日（1920–2020）';
+    errEl.textContent=t('errDate');
     errEl.classList.remove('hidden');main.classList.add('hidden');return;
   }
   const lunar=solarToLunar(sy,sm,sd);
   if(!lunar){
-    errEl.textContent='農曆換算失敗，請確認年份範圍';
+    errEl.textContent=t('errLunar');
     errEl.classList.remove('hidden');main.classList.add('hidden');return;
   }
   const{year:ly,month:lm,day:ld,isLeap}=lunar;
+  lastCalc={sy,sm,sd,ly,lm,ld,isLeap,sh,smn};
   const gInnate=String(sy).split('').concat(p2(sm).split(''),p2(sd).split('')).map(Number);
   const lInnate=String(ly).split('').concat(p2(lm).split(''),p2(ld).split('')).map(Number);
-  renderCalSection(document.getElementById('gregSection'),'國曆 (+)',`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate);
-  renderCalSection(document.getElementById('lunSection'),'農曆 (-)',`${ly}/${p2(lm)}/${p2(ld)}${isLeap?'(閏)':''}`,ly,lm,ld,sh,smn,lInnate);
-  renderInnate(document.getElementById('gregInnate'),gInnate,'國曆',false);
-  renderInnate(document.getElementById('lunInnate'),lInnate,'農曆',true);
+  renderCalSection(document.getElementById('gregSection'),true,`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate);
+  renderCalSection(document.getElementById('lunSection'),false,`${ly}/${p2(lm)}/${p2(ld)}${isLeap?t('leap'):''}`,ly,lm,ld,sh,smn,lInnate);
+  renderInnate(document.getElementById('gregInnate'),gInnate,true);
+  renderInnate(document.getElementById('lunInnate'),lInnate,false);
+  document.getElementById('innateTitle').textContent=t('innateTitle');
   const now=new Date();
   renderFlow(document.getElementById('flowSection'),sy,sm,sd,ly,lm,ld,now.getFullYear(),now.getMonth()+1,now.getDate());
-  renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,'國曆 (+) 九年能量波動表');
-  renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,'農曆 (-) 九年能量波動表');
+  renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true);
+  renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false);
   main.classList.remove('hidden');
 }
+
 function switchTab(idx){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
-// Set today's date display
+
+// init
 (function(){
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth()+1).padStart(2,'0');
-  const d = String(now.getDate()).padStart(2,'0');
-  document.getElementById('todayDisplay').textContent = '今天　' + y + '/' + m + '/' + d;
+  const now=new Date();
+  const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
+  document.getElementById('todayDisplay').textContent='今天　'+y+'/'+m+'/'+d;
 })();
 
 document.getElementById('dateInput').addEventListener('input',function(){
