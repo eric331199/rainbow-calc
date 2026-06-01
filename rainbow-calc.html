@@ -467,12 +467,39 @@ function renderInnate(el,innate,isGreg){
 }
 
 function renderFlow(el,gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD,showTitle=true){
-  const gfl=calcFlow(gregY,gregM,gregD,todayY,todayM,todayD);
+  // 陽曆流年：以生日月日為切換點
+  const gBdPassed=(todayM>gregM)||(todayM===gregM&&todayD>=gregD);
+  const gFY=gBdPassed?todayY:todayY-1;
+  // 陽曆流月：以生日日為切換點
+  const gDayPassed=todayD>=gregD;
+  let gFM=todayM,gFMY=todayY;
+  if(!gDayPassed){gFM=todayM-1;if(gFM<1){gFM=12;gFMY=todayY-1;}}
+  // 陽曆流日：以生日日（數字）為切換點；直接用今天日
+  const gFD=todayD;
+  const gfl={
+    fy:makeStage(sumArr([...digs(gFY),...digs(gregM),...digs(gregD)])),
+    fm:makeStage(sumArr([...digs(gregY),...digs(gFM),...digs(gregD)])),
+    fd:makeStage(sumArr([...digs(gregY),...digs(gregM),...digs(gFD)]))
+  };
+  // 農曆今天
   const lunarToday=solarToLunar(todayY,todayM,todayD);
   const lty=lunarToday?lunarToday.year:todayY;
   const ltm=lunarToday?lunarToday.month:todayM;
   const ltd=lunarToday?lunarToday.day:todayD;
-  const lfl=calcFlow(lunY,lunM,lunD,lty,ltm,ltd);
+  // 農曆流年：以農曆生日月日為切換點
+  const lBdPassed=(ltm>lunM)||(ltm===lunM&&ltd>=lunD);
+  const lFY=lBdPassed?lty:lty-1;
+  // 農曆流月：以農曆生日日為切換點
+  const lDayPassed=ltd>=lunD;
+  let lFM=ltm,lFMY=lty;
+  if(!lDayPassed){lFM=ltm-1;if(lFM<1){lFM=12;lFMY=lty-1;}}
+  // 農曆流日：直接用今天農曆日
+  const lFD=ltd;
+  const lfl={
+    fy:makeStage(sumArr([...digs(lFY),...digs(lunM),...digs(lunD)])),
+    fm:makeStage(sumArr([...digs(lunY),...digs(lFM),...digs(lunD)])),
+    fd:makeStage(sumArr([...digs(lunY),...digs(lunM),...digs(lFD)]))
+  };
   const gInnate=[...digs(gregY),...digs(gregM),...digs(gregD)];
   const lInnate=[...digs(lunY),...digs(lunM),...digs(lunD)];
   function lvBadge(s,innate){
