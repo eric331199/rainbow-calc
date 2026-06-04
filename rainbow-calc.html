@@ -178,11 +178,13 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     </div>
     <div class="results">
       <div class="panel active" id="panel0">
+        <div id="stagesCapture">
         <div class="cal-section" id="gregSection"></div>
         <div class="cal-section" id="lunSection"></div>
         <div class="cal-section hidden" id="leapDivider" style="border-top:1px dashed #ddd;margin-top:16px;padding-top:8px"><div id="leapDividerText" style="text-align:center;font-size:11px;color:#bbb;letter-spacing:.1em;padding:0 0 8px">— 閏月第二組 —</div></div>
         <div class="cal-section hidden" id="gregSection2" style="margin-top:0"></div>
         <div class="cal-section hidden" id="lunSection2"></div>
+        </div>
         <div style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
           <div class="innate-title" id="innateTitle">先天數</div>
@@ -988,7 +990,7 @@ function initScreenshotBtn(){}
 
 function takeScreenshot(){
   const btn=document.getElementById('screenshotBtn');
-  const el=document.getElementById('mainResult');
+  const el=document.getElementById('stagesCapture');
   if(!el||!btn) return;
   const origText=document.getElementById('screenshotText').textContent;
   document.getElementById('screenshotText').textContent='截圖中...';
