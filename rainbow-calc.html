@@ -30,7 +30,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .tab{flex:1;padding:12px 4px;font-size:13px;letter-spacing:.05em;text-align:center;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:pre-line;line-height:1.4}
 .tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
 .results{padding:0 20px}
-.cal-section{margin-top:24px}
+.cal-section{margin-top:16px;padding-top:8px}
+.cal-section+.cal-section{border-top:1px solid #e8e8e8}
 .cal-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;text-align:center}
 .cal-title span{color:#1a1a1a;font-weight:400;font-size:13px}
 .cal-label{font-family:'MPLUS1Code',monospace;font-weight:500;font-size:13px}
@@ -99,7 +100,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-cal-body .flow-lv{font-size:7px}
 .flow-cal-body .sign{font-size:9px}
 .flow-cal-body .flow-hl-box{border-radius:3px}
-.flow-year-table{padding:40px 0 8px}
+.flow-year-table{padding:32px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;color:#1a1a1a;margin:0 12px 4px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
@@ -178,7 +179,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     </div>
     <div class="results">
       <div class="panel active" id="panel0">
-        <div id="stagesCapture" style="padding:16px 0">
+        <div id="stagesCapture" style="padding:8px 0">
         <div class="cal-section" id="gregSection"></div>
         <div class="cal-section" id="lunSection"></div>
         <div class="cal-section hidden" id="leapDivider" style="border-top:1px dashed #ddd;margin-top:16px;padding-top:8px"><div id="leapDividerText" style="text-align:center;font-size:11px;color:#bbb;letter-spacing:.1em;padding:0 0 8px">— 閏月第二組 —</div></div>
