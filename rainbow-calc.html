@@ -20,11 +20,11 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .lang-btn{position:absolute;top:32px;right:20px;font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
 .lang-btn:hover{color:#555;border-color:#bbb}
 .input-area{padding:0 20px 20px}
-.input-note{font-size:13px;color:#777;margin-bottom:16px;line-height:1.6}
+.input-note{font-size:13px;color:#777;margin-bottom:16px;line-height:1.6;text-align:center}
 .input-row{display:flex;gap:10px;margin-bottom:10px;width:100%}
 .input-group{display:flex;flex-direction:column;gap:4px;min-width:0}
-.input-group label{font-size:11px;color:#999;letter-spacing:.05em}
-.input-group input{border:1px solid #ddd;border-radius:6px;padding:10px 12px;font-size:16px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;outline:none;background:#fff;width:100%}
+.input-group label{font-size:11px;color:#999;letter-spacing:.05em;text-align:center;display:block}
+.input-group input{border:1px solid #ddd;border-radius:6px;padding:10px 4px;font-size:16px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;outline:none;background:#fff;width:100%;text-align:center}
 .input-group input:focus{border-color:#666}
 .input-group input.invalid{border-color:#e74c3c;background:#fff5f5}
 .input-group input::placeholder{color:#ccc}
@@ -156,16 +156,28 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <div id="todayDisplay" style="font-size:12px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
   </div>
   <div class="input-area">
-    <div class="input-note" id="inputNote">輸入西元陽曆生日</div>
+    <div class="input-note" id="inputNote">請輸入西元陽曆生日</div>
     <form autocomplete="off" onsubmit="return false">
-    <div class="input-row">
-      <div class="input-group date" style="flex:2">
-        <label id="labelDate">年／月／日</label>
-        <input type="text" id="dateInput" placeholder="YYYY/MM/DD" maxlength="10" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="input-row" style="gap:6px">
+      <div class="input-group" style="flex:1">
+        <label id="labelDate">年</label>
+        <input type="text" id="inputYear" placeholder="YYYY" maxlength="4" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
       <div class="input-group" style="flex:1">
-        <label id="labelTime">時：分（選填）</label>
-        <input type="text" id="timeInput" placeholder="HH:MM" maxlength="5" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <label id="labelMonth">月</label>
+        <input type="text" id="inputMonth" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label id="labelDay">日</label>
+        <input type="text" id="inputDay" placeholder="DD" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label id="labelHour">時</label>
+        <input type="text" id="inputHour" placeholder="HH" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label id="labelMin">分</label>
+        <input type="text" id="inputMin" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
     </div>
     </form>
@@ -219,8 +231,8 @@ const T={
   zh:{
     titleMain:'彩虹數字', titleSub:'計算器',
     today:'今天',
-    inputNote:'輸入西元陽曆生日',
-    labelDate:'年／月／日', labelTime:'時：分（選填）',
+    inputNote:'請輸入西元陽曆生日',
+    labelDate:'年', labelMonth:'月', labelDay:'日', labelHour:'時', labelMin:'分', labelTime:'時：分（選填）',
     tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²',
     leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組',
     innateTitle:'先天數',
@@ -237,8 +249,8 @@ const T={
   en:{
     titleMain:'Rainbow Numerology', titleSub:'Calculator',
     today:'Today',
-    inputNote:'Enter your birthday',
-    labelDate:'Y／M／D', labelTime:'H：M (opt)',
+    inputNote:'Enter your birthday below',
+    labelDate:'Year', labelMonth:'Month', labelDay:'Day', labelHour:'Hour', labelMin:'Minute', labelTime:'H：M (opt)',
     tab0:'Life\nStages', tab1:'Solar¹\nFlow Table', tab2:'Lunar¹\nFlow Table', tab1no:'Solar\nFlow Table', tab2no:'Lunar\nFlow Table', tab3:'Solar²\nFlow Table', tab4:'Lunar²\nFlow Table',
     leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2',
     innateTitle:'Innate Numbers',
@@ -260,7 +272,7 @@ function toggleLang(){
   lang=lang==='zh'?'en':'zh';
   applyLang();
   if(document.getElementById('mainResult').classList.contains('hidden')) return;
-  const dateVal=document.getElementById('dateInput').value.trim();
+  const dateVal=document.getElementById('inputYear').value.trim();
   if(dateVal) calculate();
 }
 
@@ -274,6 +286,10 @@ function applyLang(){
   document.getElementById('inputNote').textContent=t('inputNote');
   const labelDate=document.getElementById('labelDate');
   if(labelDate) labelDate.textContent=t('labelDate');
+  ['labelMonth','labelDay','labelHour','labelMin'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=t(id);
+  });
   const labelTime=document.getElementById('labelTime');
   if(labelTime) labelTime.textContent=t('labelTime');
   document.getElementById('tab0').textContent=t('tab0');
@@ -464,7 +480,7 @@ function stageLabel(name){
   return T[lang].stages[idx];
 }
 
-function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true){
+function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true,isLeapMonth=false){
   const title='<span class="cal-label">'+(isGreg?t('greg'):t('lun'))+'</span><span class="cal-sign">'+(isGreg?'(+)':'(-)')+'</span>';
   const{stages}=calcStages(y,m,d,h,mn);
   const hasTime=h!==null,hasMins=mn!==null;
@@ -473,8 +489,10 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true){
   if(hasTime) dateParts.push(h);
   if(hasMins) dateParts.push(mn);
   const colStyle=`grid-template-columns:repeat(${cols},1fr);`;
-  let headerCells=dateParts.map((v,i)=>
-    `<div class="num-cell label">${i===0?v:p2(v)}</div>`).join('');
+  let headerCells=dateParts.map((v,i)=>{
+    if(i===1&&isLeapMonth) return`<div class="num-cell label"><span style="font-size:11px;color:#e06c75;margin-right:1px;vertical-align:middle">${t('leap')}</span>${p2(v)}</div>`;
+    return`<div class="num-cell label">${i===0?v:p2(v)}</div>`;
+  }).join('');
   const stageOrder=['老年','中年','青年','少年','幼年'].slice(0,cols);
   let stageCells=stageOrder.map(name=>{
     const s=stages.find(x=>x.name===name);
@@ -684,7 +702,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
   const titleWithDate=`<div class="cal-title">${calTitle}</div>`;
   const hasTime=h!==null,hasMins=mn!==null;
   const ftCols=hasTime?(hasMins?5:4):3;
-  const bdParts=[birthY,p2(birthM),(isLeap?t('leap'):'')+p2(birthD)];
+  const bdParts=[birthY,(isLeap?`<span style="font-size:11px;color:#e06c75;margin-right:1px;vertical-align:middle">${t('leap')}</span>`:'')+p2(birthM),p2(birthD)];
   if(h!==null) bdParts.push(p2(h));
   if(mn!==null) bdParts.push(p2(mn));
   const bdCells=bdParts.map(v=>`<div class="num-cell label">${v}</div>`).join('');
@@ -751,30 +769,32 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
 
 // ── Main ──────────────────────────────────────────────────────
 function renderPartial(){
-  const dateRaw=document.getElementById('dateInput').value.replace(/\//g,'');
-  const sy=parseInt(dateRaw.slice(0,4))||0;
-  const smRaw=dateRaw.length>=6?dateRaw.slice(4,6):'';
-  const sdRaw=dateRaw.length>=8?dateRaw.slice(6,8):'';
+  const syRaw=document.getElementById('inputYear').value.trim();
+  const smRaw=document.getElementById('inputMonth').value.trim();
+  const sdRaw=document.getElementById('inputDay').value.trim();
+  const shRaw=document.getElementById('inputHour').value.trim();
+  const smnRaw=document.getElementById('inputMin').value.trim();
+  const sy=parseInt(syRaw)||0;
   const sm=parseInt(smRaw)||0;
   const sd=parseInt(sdRaw)||0;
   const errEl=document.getElementById('errorMsg');
   const main=document.getElementById('mainResult');
   errEl.classList.add('hidden');
 
-  const hasYear=dateRaw.length>=4&&sy>0;
-  const hasMonth=smRaw.length===2&&sm>=1&&sm<=12;
-  const hasDay=sdRaw.length===2&&sd>=1&&sd<=31;
+  const hasYear=syRaw.length===4&&sy>0;
+  const hasMonth=smRaw.length>0&&sm>=1&&sm<=12;
+  const hasDay=sdRaw.length>0&&sd>=1&&sd<=31;
 
   // 驗證紅框
-  document.getElementById('dateInput').classList.toggle('invalid', (smRaw.length===2&&!hasMonth)||(sdRaw.length===2&&!hasDay));
-  const timeRaw=document.getElementById('timeInput').value.replace(/[^0-9]/g,'');
-  const shv=timeRaw.slice(0,2);
-  const smnv=timeRaw.slice(2,4);
-  document.getElementById('timeInput').classList.toggle('invalid', timeRaw.length>0&&(parseInt(shv)<0||parseInt(shv)>23||isNaN(parseInt(shv))));
+  document.getElementById('inputMonth').classList.toggle('invalid', smRaw.length>0&&!hasMonth);
+  document.getElementById('inputDay').classList.toggle('invalid', sdRaw.length>0&&!hasDay);
+  const shv=shRaw;
+  const smnv=smnRaw;
+  document.getElementById('inputHour').classList.toggle('invalid', shRaw.length>0&&(parseInt(shRaw)<0||parseInt(shRaw)>23||isNaN(parseInt(shRaw))));
 
   if(!hasYear){main.classList.add('hidden');return;}
-  const sh=shv.length>=1&&parseInt(shv)>=0&&parseInt(shv)<=23?parseInt(shv):null;
-  const smn=smnv.length>=1&&parseInt(smnv)>=0&&parseInt(smnv)<=59?parseInt(smnv):null;
+  const sh=shRaw.length>0&&parseInt(shRaw)>=0&&parseInt(shRaw)<=23?parseInt(shRaw):null;
+  const smn=smnRaw.length>0&&parseInt(smnRaw)>=0&&parseInt(smnRaw)<=59?parseInt(smnRaw):null;
 
   // 決定要顯示幾欄
   // 只有年：老年
@@ -834,7 +854,7 @@ function renderPartial(){
     const gInnate=String(sy).split('').concat(p2(sm).split(''),p2(sd).split('')).map(Number);
     const lInnate=String(ly).split('').concat(p2(lm).split(''),p2(ld).split('')).map(Number);
     renderCalSection(gregSection,true,`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate);
-    renderCalSection(lunSection,false,`${ly}/${isLeap?t('leap'):''}${p2(lm)}/${p2(ld)}`,ly,lm,ld,sh,smn,lInnate);
+    renderCalSection(lunSection,false,`${ly}/${isLeap?t('leap'):''}${p2(lm)}/${p2(ld)}`,ly,lm,ld,sh,smn,lInnate,true,isLeap);
     renderInnate(document.getElementById('gregInnate'),gInnate,true);
     renderInnate(document.getElementById('lunInnate'),lInnate,false);
     document.getElementById('innateTitle').textContent=t('innateTitle');
@@ -918,10 +938,9 @@ function renderPartial(){
 }
 
 function calculate(silent=false){
-  const dateRaw=document.getElementById('dateInput').value.replace(/\//g,'');
-  const sy=parseInt(dateRaw.slice(0,4))||0;
-  const sm=parseInt(dateRaw.length>=6?dateRaw.slice(4,6):'')||0;
-  const sd=parseInt(dateRaw.length>=8?dateRaw.slice(6,8):'')||0;
+  const sy=parseInt(document.getElementById('inputYear').value)||0;
+  const sm=parseInt(document.getElementById('inputMonth').value)||0;
+  const sd=parseInt(document.getElementById('inputDay').value)||0;
   const errEl=document.getElementById('errorMsg');
   const main=document.getElementById('mainResult');
   errEl.classList.add('hidden');
@@ -954,64 +973,33 @@ function tryAutoCalculate(){
   renderPartial();
 }
 
-// 單一日期欄位，自動加斜線
-// 日期欄位，自動加斜線
-const dateEl=document.getElementById('dateInput');
-
-dateEl.addEventListener('keydown',function(e){
-  if(e.key==='Backspace'){
-    const v=this.value;
-    if(v.endsWith('/')) {
-      e.preventDefault();
-      this.value=v.slice(0,-1);
-      tryAutoCalculate();
+// 五欄位輸入事件
+const _inputIds=['inputYear','inputMonth','inputDay','inputHour','inputMin'];
+_inputIds.forEach(function(id){
+  const el=document.getElementById(id);
+  el.addEventListener('input',function(){
+    this.value=this.value.replace(/[^0-9]/g,'');
+    // 自動跳下一格
+    const maxLen=parseInt(this.getAttribute('maxlength'));
+    if(this.value.length>=maxLen){
+      const next=_inputIds[_inputIds.indexOf(id)+1];
+      if(next) document.getElementById(next).focus();
     }
-  }
-});
-
-let datePrevLen=0;
-dateEl.addEventListener('input',function(){
-  const d=this.value.replace(/[^0-9]/g,'').slice(0,8);
-  const shrinking=d.length<datePrevLen;
-  datePrevLen=d.length;
-  let formatted=d;
-  if(d.length>6) formatted=d.slice(0,4)+'/'+d.slice(4,6)+'/'+d.slice(6);
-  else if(d.length===6) formatted=d.slice(0,4)+'/'+d.slice(4,6)+(shrinking?'':'/');
-  else if(d.length>4) formatted=d.slice(0,4)+'/'+d.slice(4);
-  else if(d.length===4) formatted=d+(shrinking?'':'/');
-  this.value=formatted;
-  if(d.length>=8) document.getElementById('timeInput').focus();
-  tryAutoCalculate();
-});
-
-// 時分欄位，自動加冒號
-const timeEl=document.getElementById('timeInput');
-
-let timePrevLen=0;
-timeEl.addEventListener('input',function(){
-  const d=this.value.replace(/[^0-9]/g,'').slice(0,4);
-  let formatted=d;
-  const shrinking=d.length<timePrevLen;
-  timePrevLen=d.length;
-  if(d.length>2) formatted=d.slice(0,2)+':'+d.slice(2);
-  else if(d.length===2) formatted=d+(shrinking?'':':');
-  this.value=formatted;
-  renderPartial();
-});
-
-timeEl.addEventListener('focus',function(){});
-
-timeEl.addEventListener('keydown',function(e){
-  if(e.key==='Backspace'){
-    const v=this.value;
-    if(v.endsWith(':')) {
-      e.preventDefault();
-      this.value=v.slice(0,-1);
-      renderPartial();
-    } else if(v==='') {
-      document.getElementById('dateInput').focus();
+    renderPartial();
+  });
+  el.addEventListener('keydown',function(e){
+    if(e.key==='Backspace'&&this.value===''){
+      const prev=_inputIds[_inputIds.indexOf(id)-1];
+      if(prev){
+        e.preventDefault();
+        const prevEl=document.getElementById(prev);
+        prevEl.focus();
+        // 移到末位
+        const len=prevEl.value.length;
+        prevEl.setSelectionRange(len,len);
+      }
     }
-  }
+  });
 });
 function toggleAllBdHeaders(btn){
   const headers=document.querySelectorAll('.bd-header');
@@ -1036,8 +1024,10 @@ function takeScreenshot(){
   btn.disabled=true;
   html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff'}).then(canvas=>{
     const link=document.createElement('a');
-    const dateInput=document.getElementById('dateInput');
-    const name=dateInput?dateInput.value.replace(/\//g,'-'):'rainbow';
+    const y=document.getElementById('inputYear').value||'rainbow';
+    const mo=document.getElementById('inputMonth').value||'';
+    const dy=document.getElementById('inputDay').value||'';
+    const name=mo&&dy?`${y}-${mo}-${dy}`:y;
     link.download=`彩虹數字_${name}.png`;
     link.href=canvas.toDataURL('image/png');
     link.click();
