@@ -251,13 +251,13 @@ const T={
     today:'Today',
     inputNote:'Enter your birthday below',
     labelDate:'Year', labelMonth:'Month', labelDay:'Day', labelHour:'Hour', labelMin:'Minute', labelTime:'H：M (opt)',
-    tab0:'Life\nStages', tab1:'Solar¹\nFlow Table', tab2:'Lunar¹\nFlow Table', tab1no:'Solar\nFlow Table', tab2no:'Lunar\nFlow Table', tab3:'Solar²\nFlow Table', tab4:'Lunar²\nFlow Table',
+    tab0:'Life\nStages', tab1:'Solar¹\nTransit', tab2:'Lunar¹\nTransit', tab1no:'Solar\nTransit', tab2no:'Lunar\nTransit', tab3:'Solar²\nTransit', tab4:'Lunar²\nTransit',
     leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
-    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:'',
+    flowYear:'Annual Transit', flowMonth:'Monthly Transit', flowDay:'Daily Transit', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:'',
     flowTableGreg:'Solar (+) 9-Year Energy Rhythm', flowTableLun:'Lunar (-) 9-Year Energy Rhythm', flowTableSuffix:'9-Year Energy Rhythm',
     coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
     langBtn:'中文',
@@ -729,7 +729,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
   const wegeYear=birthdayPassedForWege?todayY:todayY-1;
   const currentWege=((wegeYear-birthY+1)%9+9)%9||9;
   const wegeNames=lang==='en'
-    ?['Find Your<br>Goal','Plan<br>and Try','Clear<br>the Old','Confirm<br>Value','Stay<br>or Pivot','Reconcile<br>and Heal','Karma<br>Reveals','Perf.<br>Review','Rest<br>and Still']
+    ?['Set<br>Your Goal','Plan<br>and Try','Clear<br>the Old','Root<br>the Value','Stay<br>or Pivot','Mend<br>and Heal','Let Karma<br>Reveal','Review<br>the Path','Rest<br>and Still']
     :['立定目標','佈局試探','清理舊習','格局抉擇','尋適守成','和解療癒','因果驗收','結算檢討','休息沈澱'];
   const wegeCells=Array.from({length:9},(_,i)=>{
     const isActive=(i+1)===currentWege;
