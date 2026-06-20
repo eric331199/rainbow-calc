@@ -729,7 +729,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
   const wegeYear=birthdayPassedForWege?todayY:todayY-1;
   const currentWege=((wegeYear-birthY+1)%9+9)%9||9;
   const wegeNames=lang==='en'
-    ?['Set<br>Your Goal','Plan<br>and Try','Clear<br>the Old','Root<br>the Value','Stay<br>or Pivot','Mend<br>and Heal','Let Karma<br>Reveal','Review<br>the Path','Rest<br>and Still']
+    ?['Set<br>Your<br>Goal','Plan<br>and<br>Try','Clear<br>the<br>Old','Root<br>the<br>Value','Stay<br>or<br>Pivot','Mend<br>and<br>Heal','Let<br>Karma<br>Reveal','Review<br>the<br>Path','Rest<br>and<br>Still']
     :['立定目標','佈局試探','清理舊習','格局抉擇','尋適守成','和解療癒','因果驗收','結算檢討','休息沈澱'];
   const wegeCells=Array.from({length:9},(_,i)=>{
     const isActive=(i+1)===currentWege;
