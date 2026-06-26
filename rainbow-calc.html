@@ -547,16 +547,12 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
     return c;
   }
   function makeCell(num,innate,pathNums,destNums){
-    const iCnt=innate.filter(n=>n===num).length;
-    const pCnt=pathNums.filter(n=>n===num).length;
+    const total=innate.filter(n=>n===num).length+pathNums.filter(n=>n===num).length+destNums.filter(n=>n===num).length;
     const dCnt=destNums.filter(n=>n===num).length;
-    const parts=[];
-    let first=true;
-    if(iCnt>0){parts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:400">×${iCnt}</span>`);first=false;}
-    if(pCnt>0){const sym=first?'×':'+';parts.push(`<span style="color:#888;font-size:9px;font-weight:700">${sym}${pCnt}</span>`);first=false;}
-    if(dCnt>0){const sym=first?'×':'+';parts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:700">${sym}${dCnt}</span>`);}
-    const countHtml=parts.length>0
-      ?`<span style="display:flex;gap:1px;align-items:center">${parts.join('')}</span>`
+    const pCnt=pathNums.filter(n=>n===num).length;
+    const suffix=dCnt>0?'"':pCnt>0?"'":'';
+    const countHtml=total>0
+      ?`<span style="color:#555;font-size:9px;font-weight:700">×${total}${suffix}</span>`
       :`<span style="visibility:hidden;font-size:9px">×1</span>`;
     let cellStyle='';
     if(dCnt>0) cellStyle='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
@@ -569,11 +565,10 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
     const ziCnt=innate.filter(n=>n===0).length;
     const zpCnt=pathNums.filter(n=>n===0).length;
     const zdCnt=destNums.filter(n=>n===0).length;
-    const zeroParts=[];let zFirst=true;
-    if(ziCnt>0){zeroParts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:400">×${ziCnt}</span>`);zFirst=false;}
-    if(zpCnt>0){const sym=zFirst?'×':'+';zeroParts.push(`<span style="color:#888;font-size:9px;font-weight:700">${sym}${zpCnt}</span>`);zFirst=false;}
-    if(zdCnt>0){const sym=zFirst?'×':'+';zeroParts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:700">${sym}${zdCnt}</span>`);}    const zeroHtml=zeroParts.length>0
-      ?`<span style="display:flex;gap:1px;align-items:center">${zeroParts.join('')}</span>`
+    const zTotal=ziCnt+zpCnt+zdCnt;
+    const zSuffix=zdCnt>0?'"':zpCnt>0?"'":'';
+    const zeroHtml=zTotal>0
+      ?`<span style="color:#555;font-size:9px;font-weight:700">×${zTotal}${zSuffix}</span>`
       :`<span style="visibility:hidden;font-size:9px">×1</span>`;
     let zCellStyle='';
     if(zdCnt>0) zCellStyle='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
@@ -602,12 +597,12 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
   const gridHtmlStr=`
     <div class="nine-grid-wrap">
       <div class="nine-grid-side">
-        <div class="nine-grid-label" style="font-size:13px;color:#999;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
+        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
         <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(gInnate)}</div>
         ${makeGrid(gInnate,gPathNums,gDestNums)}
       </div>
       <div class="nine-grid-side">
-        <div class="nine-grid-label" style="font-size:13px;color:#999;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
+        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
         <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(lInnate)}</div>
         ${makeGrid(lInnate,lPathNums,lDestNums)}
       </div>
