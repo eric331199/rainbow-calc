@@ -130,6 +130,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .bd-toggle-btn{padding:2px 10px;border-radius:12px;border:1px solid #bbb;background:#fff;font-size:11px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
 /* 九宮格 */
 .nine-grid-wrap{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.nine-grid-collapsible{overflow:hidden;transition:max-height 0.3s ease;max-height:300px}
+.nine-grid-collapsible.collapsed{max-height:0}
 .nine-grid-side{flex:1;min-width:0}
 .nine-grid-label{font-size:11px;color:#999;text-align:center;margin-bottom:6px;font-family:'MPLUS1Code',monospace;letter-spacing:.05em}
 .nine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
@@ -204,14 +206,14 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         </div>
         <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
-          <div class="innate-title" id="innateTitle">先天數</div>
+          <div class="innate-title" id="innateTitle" style="display:grid;grid-template-columns:auto 1fr auto;align-items:center"><button disabled style="-webkit-appearance:none;appearance:none;background:none;border:none;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap;visibility:hidden">展開 ▼</button><span id="innateTitleText">先天數</span><button onclick="toggleNineGrid(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap">收合 ▲</button></div>
           <div id="nineGridSection"></div>
           <div id="nineGridSection2" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
         </div>
         <div class="flow-block" id="flowBlock">
           <div id="flowYearBlock"></div>
-          <div id="flowMonthBlock"></div>
-          <div id="flowDayBlock"></div>
+          <div id="flowMonthBlock" style="margin-top:20px;padding-top:20px;border-top:1px solid #e8e8e8"></div>
+          <div id="flowDayBlock" style="margin-top:20px;padding-top:20px;border-top:1px solid #e8e8e8"></div>
         </div>
       </div>
       <div class="panel" id="panel1"><div id="gregFlowTable"></div></div>
@@ -220,11 +222,11 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="panel hidden" id="panel4"><div id="lunFlowTable2"></div></div>
     </div>
   </div>
-  <div style="text-align:center;padding:24px 20px 8px;font-family:'M PLUS Rounded 1c',sans-serif">
+  <div style="text-align:center;padding:16px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
     <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
-    © 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a>
+    <span style="display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0">© 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a></span>
   </div>
 </div>
 <script>
@@ -298,7 +300,13 @@ function applyLang(){
   const isLeap=!!document.getElementById('tab3');
   document.getElementById('tab1').textContent=isLeap?t('tab1'):t('tab1no');
   document.getElementById('tab2').textContent=isLeap?t('tab2'):t('tab2no');
-  document.getElementById('innateTitle').textContent=t('innateTitle');
+  document.getElementById('innateTitleText').textContent=t('innateTitle');
+  const nineGridToggleBtn=document.querySelector('#innateTitle button');
+  if(nineGridToggleBtn){
+    const wraps=document.querySelectorAll('.nine-grid-collapsible');
+    const isCollapsed=wraps[0]&&wraps[0].classList.contains('collapsed');
+    nineGridToggleBtn.textContent=isCollapsed?(lang==='en'?'Expand ▼':'展開 ▼'):(lang==='en'?'Collapse ▲':'收合 ▲');
+  }
   document.getElementById('coffeeBtn').textContent=t('coffee');
   document.getElementById('footerStudio').textContent=t('studio');
   document.getElementById('langBtn').textContent=t('langBtn');
@@ -591,19 +599,24 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
     <div class="nine-grid-wrap">
       <div class="nine-grid-side">
         <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
-        <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(gInnate)}</div>
-        ${makeGrid(gInnate,gPathNums,gDestNums)}
+        <div class="innate-nums" style="justify-content:center;margin-bottom:8px">${makeInnateNums(gInnate)}</div>
+        <div class="nine-grid-collapsible">${makeGrid(gInnate,gPathNums,gDestNums)}</div>
       </div>
       <div class="nine-grid-side">
         <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
-        <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(lInnate)}</div>
-        ${makeGrid(lInnate,lPathNums,lDestNums)}
+        <div class="innate-nums" style="justify-content:center;margin-bottom:8px">${makeInnateNums(lInnate)}</div>
+        <div class="nine-grid-collapsible">${makeGrid(lInnate,lPathNums,lDestNums)}</div>
       </div>
-    </div>`;
+    </div>
+    `;
   // 保留已有內容（如標題），只移除舊的 nine-grid-wrap
   const existing=el.querySelector('.nine-grid-wrap');
+  const wasCollapsed=existing&&existing.querySelector('.nine-grid-collapsible.collapsed');
   if(existing) existing.remove();
   el.insertAdjacentHTML('beforeend',gridHtmlStr);
+  if(wasCollapsed){
+    el.querySelectorAll('.nine-grid-collapsible').forEach(w=>w.classList.add('collapsed'));
+  }
 }
 
 // ── 流年流月流日共用計算 ──
@@ -639,10 +652,15 @@ function flowLvBadge(s,innate,bold=false){
 // ── 流年 ──
 function renderFlowYear(el,sets,todayY,todayM,todayD){
   // sets = [{gregY,gregM,gregD,lunY,lunM,lunD,sup}] 1或2組，sup='¹'或'²'
-  const isLeap=sets.length>1;
-  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowYear')+'</div>';
-  for(const s of sets){
+  const prevGrid=el.querySelector('.flow-new-grid,.flow-cal-wrap');
+  const wasCollapsed=prevGrid&&prevGrid.style.display==='none';
+  let html='<div class="flow-new-section">';
+  sets.forEach((s,idx)=>{
     const{gFY,lFY,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const gFYS=makeStage(sumArr([...digs(gFY),...digs(s.gregM),...digs(s.gregD)]));
+    const lFYS=makeStage(sumArr([...digs(lFY),...digs(s.lunM),...digs(s.lunD)]));
+    const fyBtn=idx===0?'<button onclick="toggleFlowSection(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;justify-self:end">▲</button>':'<span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span>';
+    const titleDiv=`<div class="flow-new-title" style="display:grid;grid-template-columns:28px 78px 1fr 78px 28px;align-items:center"><span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">+${flowLvBadge(gFYS,gInnate,true)}</span><span style="text-align:center">${idx===0?t('flowYear'):'　　'}</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">-${flowLvBadge(lFYS,lInnate,true)}</span>${fyBtn}</div>`;
     const centerY=Math.max(gFY,lFY);
     const fyYears=[centerY-1,centerY,centerY+1];
     const fyLabels=fyYears.map(yr=>String(yr));
@@ -663,11 +681,17 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
         ${inner}
       </div>`;
     }).join('');
-    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
-    html+=supLabel+`<div class="flow-new-grid flow-year-grid">${fyCells}</div>`;
-  }
+    const gridDiv=`<div class="flow-new-grid flow-year-grid">${fyCells}</div>`;
+    if(idx===0) html+=titleDiv+gridDiv;
+    else html+=`<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd">${titleDiv}${gridDiv}</div>`;
+  });
   html+='</div>';
   el.innerHTML=html;
+  if(wasCollapsed){
+    el.querySelectorAll('.flow-new-grid,.flow-cal-wrap').forEach(g=>g.style.display='none');
+    const btn=el.querySelector('[onclick="toggleFlowSection(this)"]');
+    if(btn) btn.textContent='▼';
+  }
 }
 
 // ── 流月流日導航狀態 ──
@@ -685,11 +709,16 @@ function _reRenderFlowDay(){
 
 // ── 流月 ──
 function renderFlowMonth(el,sets,todayY,todayM,todayD){
-  const isLeap=sets.length>1;
+  const prevGrid=el.querySelector('.flow-new-grid,.flow-cal-wrap');
+  const wasCollapsed=prevGrid&&prevGrid.style.display==='none';
   const fmMonthLabels=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowMonth')+'</div>';
-  for(const s of sets){
+  let html='<div class="flow-new-section">';
+  sets.forEach((s,idx)=>{
     const{gFM,lFM,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const gFMS=makeStage(sumArr([...digs(s.gregY),...digs(gFM),...digs(s.gregD)]));
+    const lFMS=makeStage(sumArr([...digs(s.lunY),...digs(lFM),...digs(s.lunD)]));
+    const fmBtn=idx===0?'<button onclick="toggleFlowSection(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;justify-self:end">▲</button>':'<span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span>';
+    const titleDiv=`<div class="flow-new-title" style="display:grid;grid-template-columns:28px 78px 1fr 78px 28px;align-items:center"><span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">+${flowLvBadge(gFMS,gInnate,true)}</span><span style="text-align:center">${idx===0?t('flowMonth'):'　　'}</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">-${flowLvBadge(lFMS,lInnate,true)}</span>${fmBtn}</div>`;
     const fmCells=fmMonthLabels.map((lbl,i)=>{
       const mo=i+1;
       const isCurrentG=(mo===gFM);
@@ -708,16 +737,23 @@ function renderFlowMonth(el,sets,todayY,todayM,todayD){
         ${inner}
       </div>`;
     }).join('');
-    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
-    html+=supLabel+`<div class="flow-new-grid flow-month-grid">${fmCells}</div>`;
-  }
+    const gridDiv=`<div class="flow-new-grid flow-month-grid">${fmCells}</div>`;
+    if(idx===0) html+=titleDiv+gridDiv;
+    else html+=`<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd">${titleDiv}${gridDiv}</div>`;
+  });
   html+='</div>';
   el.innerHTML=html;
+  if(wasCollapsed){
+    el.querySelectorAll('.flow-new-grid,.flow-cal-wrap').forEach(g=>g.style.display='none');
+    const btn=el.querySelector('[onclick="toggleFlowSection(this)"]');
+    if(btn) btn.textContent='▼';
+  }
 }
 
 // ── 流日 ──
 function renderFlowDay(el,sets,todayY,todayM,todayD){
-  const isLeap=sets.length>1;
+  const prevGrid=el.querySelector('.flow-new-grid,.flow-cal-wrap');
+  const wasCollapsed=prevGrid&&prevGrid.style.display==='none';
   const weekLabels=lang==='en'?['Mon','Tue','Wed','Thu','Fri','Sat','Sun']:['週一','週二','週三','週四','週五','週六','週日'];
   const weekHeaders=weekLabels.map(w=>`<div class="flow-cal-head">${w}</div>`).join('');
   const calYear=todayY,calMonth=todayM;
@@ -732,9 +768,13 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
     <span style="font-size:13px;font-weight:600">${calYear}/${String(calMonth).padStart(2,'0')}</span>
     <button onclick="if(_flowDayNavMonth===12){_flowDayNavMonth=1;_flowDayNavYear++;}else{_flowDayNavMonth++;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${nextMonthLabel}</button>
   </div>`;
-  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowDay')+'</div>'+monthNavHtml;
-  for(const s of sets){
+  let html='<div class="flow-new-section">';
+  sets.forEach((s,idx)=>{
     const{gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const gFDS=makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(todayD)]));
+    const lFDS=makeStage(sumArr([...digs(s.lunY),...digs(s.lunM),...digs(solarToLunar(todayY,todayM,todayD)?.day||todayD)]));
+    const fdBtn=idx===0?'<button onclick="toggleFlowSection(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;justify-self:end">▲</button>':'<span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span>';
+    const titleDiv=`<div class="flow-new-title" style="display:grid;grid-template-columns:28px 78px 1fr 78px 28px;align-items:center"><span style="background:none;border:none;font-size:10px;padding:0 4px 0 8px;visibility:hidden;justify-self:end">▲</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">+${flowLvBadge(gFDS,gInnate,true)}</span><span style="text-align:center">${idx===0?t('flowDay'):'　　'}</span><span class="sign" style="font-size:11px;color:#aaa;text-align:center;white-space:nowrap">-${flowLvBadge(lFDS,lInnate,true)}</span>${fdBtn}</div>`;
     function fdStageG(dy){return makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(dy)]));}
     function fdStageL(dy){
       const lunar=solarToLunar(calYear,calMonth,dy);
@@ -755,11 +795,17 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
         ${isToday?'</div>':''}
       </div>`;
     }
-    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
-    html+=supLabel+`<div class="flow-cal-grid"><div class="flow-cal-week">${weekHeaders}</div><div class="flow-cal-body">${calCells}</div></div>`;
-  }
+    const gridDiv=`<div class="flow-cal-wrap">${monthNavHtml}<div class="flow-cal-grid"><div class="flow-cal-week">${weekHeaders}</div><div class="flow-cal-body">${calCells}</div></div></div>`;
+    if(idx===0) html+=titleDiv+gridDiv;
+    else html+=`<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd">${titleDiv}${gridDiv}</div>`;
+  });
   html+='</div>';
   el.innerHTML=html;
+  if(wasCollapsed){
+    el.querySelectorAll('.flow-new-grid,.flow-cal-wrap').forEach(g=>g.style.display='none');
+    const btn=el.querySelector('[onclick="toggleFlowSection(this)"]');
+    if(btn) btn.textContent='▼';
+  }
 }
 
 
@@ -985,7 +1031,7 @@ function renderPartial(){_resetFlowNav();
     const gDestinyStr=makeStage(gDestinyTotal).str;
     const lDestinyStr=makeStage(lDestinyTotal).str;
     renderNineGrids(gInnate,lInnate,gBreak.pathNums,lBreak.pathNums,gBreak.destinyNums,lBreak.destinyNums,gDestinyStr,lDestinyStr);
-    document.getElementById('innateTitle').textContent=t('innateTitle');
+    document.getElementById('innateTitleText').textContent=t('innateTitle');
     const now=new Date();
     // 流年流月流日
     const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
@@ -1166,6 +1212,21 @@ function takeScreenshot(){
     document.getElementById('screenshotText').textContent=origText;
     btn.disabled=false;
   });
+}
+function toggleFlowSection(btn){
+  const section=btn.closest('.flow-new-section');
+  const grids=section.querySelectorAll('.flow-new-grid,.flow-cal-wrap');
+  const isCollapsed=grids[0]&&grids[0].style.display==='none';
+  grids.forEach(g=>g.style.display=isCollapsed?'':'none');
+  btn.textContent=isCollapsed?'▲':'▼';
+}
+function toggleNineGrid(btn){
+  const wraps=document.querySelectorAll('.nine-grid-collapsible');
+  const isCollapsed=wraps[0].classList.contains('collapsed');
+  wraps.forEach(w=>w.classList.toggle('collapsed',!isCollapsed));
+  const collapseLabel=lang==='en'?'Collapse ▲':'收合 ▲';
+  const expandLabel=lang==='en'?'Expand ▼':'展開 ▼';
+  btn.textContent=isCollapsed?collapseLabel:expandLabel;
 }
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
