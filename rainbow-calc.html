@@ -213,10 +213,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .yb-rel{font-size:15px;font-weight:500;color:#1a1a1a;font-family:'MPLUS1Code',monospace;line-height:1.4;text-align:center}
 .yb-mid{display:flex;align-items:center;gap:5px}
 .yb-mid .yb-rel{min-width:20px;display:inline-block}
-.yb-bracket{position:relative;padding:3px 7px}
-.yb-bracket::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border:1.5px solid #b5b5b5;border-right:none;border-radius:1px}
-.yb-bracket::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;border:1.5px solid #b5b5b5;border-left:none;border-radius:1px}
-.yb-inner{display:grid;grid-template-columns:repeat(2,14px);gap:1px 6px;font-size:12px;color:#555;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.3}
+.yb-bracket{display:inline-flex;align-items:center}
+.yb-bkt{font-size:20px;color:#bbb;font-weight:300;line-height:1;font-family:'M PLUS Rounded 1c',sans-serif}
+.yb-inner{display:grid;grid-template-columns:repeat(2,14px);gap:1px 6px;font-size:12px;color:#555;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.3;padding:2px 5px}
 .yb-label{font-size:10px;color:#999;margin-top:5px;letter-spacing:.05em;text-align:center}
 .yb-sub{font-size:10px;color:#ccc;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.4}
 .yb-blank{visibility:hidden}
@@ -245,8 +244,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .yb-rel{font-size:11px}
   .yb-mid{gap:3px}
   .yb-mid .yb-rel{min-width:13px}
-  .yb-bracket{padding:2px 4px}
-  .yb-inner{grid-template-columns:repeat(2,10px);gap:1px 3px;font-size:9px}
+  .yb-bkt{font-size:15px}
+  .yb-inner{grid-template-columns:repeat(2,10px);gap:1px 3px;font-size:9px;padding:1px 3px}
   .yb-label,.yb-sub{font-size:8px}
   .yuan-row{gap:3px}
   .fen-seg{padding:0 2px}
@@ -260,8 +259,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .fen-seg .yb-rel{font-size:9px}
   .fen-seg .yb-mid{gap:2px}
   .fen-seg .yb-mid .yb-rel{min-width:9px}
-  .fen-seg .yb-bracket{padding:1px 3px}
-  .fen-seg .yb-inner{grid-template-columns:repeat(2,8px);gap:1px 2px;font-size:8px}
+  .fen-seg .yb-bkt{font-size:13px}
+  .fen-seg .yb-inner{grid-template-columns:repeat(2,8px);gap:1px 2px;font-size:8px;padding:1px 2px}
   .fen-seg .yb-label,.fen-seg .yb-sub{font-size:7px}
 }
 
@@ -283,8 +282,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .yb-rel{font-size:16px}
   .yb-mid{gap:6px}
   .yb-mid .yb-rel{min-width:22px}
-  .yb-bracket{padding:4px 8px}
-  .yb-inner{grid-template-columns:repeat(2,15px);gap:1px 7px;font-size:13px}
+  .yb-bkt{font-size:22px}
+  .yb-inner{grid-template-columns:repeat(2,15px);gap:1px 7px;font-size:13px;padding:3px 6px}
   .yb-label,.yb-sub{font-size:11px}
   .yuan-row{gap:10px}
   .fen-strip{padding:10px 4px 14px}
@@ -1687,11 +1686,11 @@ function ybCol(v){return v>12?sumArr(digs(v)):v;}
 function ybMatrix(a,b,c,d,label,sub){
   const meta=(label?`<div class="yb-label">${label}</div>`:'')+(sub?`<div class="yb-sub">${sub}</div>`:'');
   return `<div class="yb-mat"><div class="yb-rel">${ybCol(a+b)}</div>`+
-  `<div class="yb-mid"><span class="yb-rel">${ybCol(a+d)}</span><span class="yb-bracket"><span class="yb-inner"><span>${a}</span><span>${b}</span><span>${c}</span><span>${d}</span></span></span><span class="yb-rel">${ybCol(c+b)}</span></div>`+
+  `<div class="yb-mid"><span class="yb-rel">${ybCol(a+d)}</span><span class="yb-bracket"><span class="yb-bkt">[</span><span class="yb-inner"><span>${a}</span><span>${b}</span><span>${c}</span><span>${d}</span></span><span class="yb-bkt">]</span></span><span class="yb-rel">${ybCol(c+b)}</span></div>`+
   `<div class="yb-rel">${ybCol(c+d)}</div>`+meta+`</div>`;
 }
 function ybBlank(){
-  return `<div class="yb-mat yb-blank"><div class="yb-rel">0</div><div class="yb-mid"><span class="yb-rel">0</span><span class="yb-bracket"><span class="yb-inner"><span>0</span><span>0</span><span>0</span><span>0</span></span></span><span class="yb-rel">0</span></div><div class="yb-rel">0</div></div>`;
+  return `<div class="yb-mat yb-blank"><div class="yb-rel">0</div><div class="yb-mid"><span class="yb-rel">0</span><span class="yb-bracket"><span class="yb-bkt">[</span><span class="yb-inner"><span>0</span><span>0</span><span>0</span><span>0</span></span><span class="yb-bkt">]</span></span><span class="yb-rel">0</span></div><div class="yb-rel">0</div></div>`;
 }
 
 // 緣：九組矩陣（上五下四，編號＝解讀順位 97135／8624）
