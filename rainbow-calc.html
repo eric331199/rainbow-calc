@@ -95,9 +95,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-year-table{padding:32px 0 8px}
 .flow-year-title{font-size:14px;font-weight:500;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0;overflow-x:auto}
-.fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
+.fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%;position:relative}
+.fyt-grid::before,.fyt-grid::after{content:'';position:absolute;top:0;bottom:0;width:1px;background:#333;z-index:5;pointer-events:none}
+.fyt-grid::before{left:calc(100%/9*3)}
+.fyt-grid::after{left:calc(100%/9*6)}
 .fyt-col{display:flex;flex-direction:column;position:relative}
-.fyt-col-current{outline:2px solid #F0D080;outline-offset:-1px;border-radius:3px;z-index:2;background:#FFFDF5}
+.fyt-col-current{outline:1px solid #F0D080;outline-offset:-1px;border-radius:3px;z-index:2;background:#FFFDF5}
 .fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
 .fyt-col:last-child .fyt-cell{border-right:none}
 .fyt-cell.age-row{background:#fff;border-bottom:1px solid #ddd}
@@ -125,6 +128,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 /* 隱藏生日按鈕 */
 .bd-toggle-btn{padding:2px 10px;border-radius:12px;border:1px solid #bbb;background:#fff;font-size:11px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
+.bd2-hint-row{text-align:right;margin:-2px 0 12px;padding:0 2px}
+.bd2-hint-btn{border:none;background:none;color:#bbb;font-size:11px;letter-spacing:.02em;cursor:pointer;padding:2px;font-family:'M PLUS Rounded 1c',sans-serif}
+.bd2-row{margin-bottom:10px}
 /* 九宮格 */
 .nine-grid-wrap{display:flex;gap:12px;justify-content:center;margin-top:16px}
 .nine-grid-collapsible{overflow:hidden;transition:max-height 0.3s ease;max-height:300px}
@@ -171,6 +177,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .rec-detail-wrap.collapsed{max-height:0}
 .rec-cal-block{margin-top:6px}
 .rec-cal-block+.rec-cal-block{margin-top:10px}
+.rec-bd2-divider{text-align:center;font-size:10px;color:#bbb;letter-spacing:.08em;margin:10px 0 4px;border-top:1px dashed #e5e5e5;padding-top:6px}
 .rec-item-date{font-size:12px;color:#999;text-align:center;font-family:'MPLUS1Code',monospace}
 .rec-stage-row{display:flex;align-items:center;justify-content:center;gap:5px;font-family:'MPLUS1Code',monospace;font-size:11px;color:#999;margin-top:2px}
 .rec-stage-cell{min-width:30px;text-align:center}
@@ -355,6 +362,26 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <input type="text" id="inputMin" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
     </div>
+    <div class="bd2-hint-row">
+      <button type="button" id="btnBd2Toggle" class="bd2-hint-btn" onclick="toggleBd2()">如果你除了閏月還有第二組生日，按這裡→ +</button>
+    </div>
+    <div class="input-row bd2-row hidden" id="bd2Row" style="gap:6px">
+      <div class="input-group" style="flex:1">
+        <input type="text" id="inputYear2" placeholder="YYYY" maxlength="4" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <input type="text" id="inputMonth2" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <input type="text" id="inputDay2" placeholder="DD" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <input type="text" id="inputHour2" placeholder="HH" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="input-group" style="flex:1">
+        <input type="text" id="inputMin2" placeholder="MM" maxlength="2" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+    </div>
     </form>
   </div>
   <div id="errorMsg" class="error hidden"></div>
@@ -372,12 +399,16 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <div class="cal-section hidden" id="leapDivider" style="border-top:1px dashed #ddd;margin-top:16px;padding-top:8px"><div id="leapDividerText" style="text-align:center;font-size:11px;color:#bbb;letter-spacing:.1em;padding:0 0 8px">— 閏月第二組 —</div></div>
         <div class="cal-section hidden" id="gregSection2" style="margin-top:0"></div>
         <div class="cal-section hidden" id="lunSection2"></div>
+        <div class="cal-section hidden" id="slot3Divider" style="border-top:1px dashed #ddd;margin-top:16px;padding-top:8px"><div id="slot3DividerText" style="text-align:center;font-size:11px;color:#bbb;letter-spacing:.1em;padding:0 0 8px">— 第二組生日 —</div></div>
+        <div class="cal-section hidden" id="gregSection3" style="margin-top:0"></div>
+        <div class="cal-section hidden" id="lunSection3"></div>
         </div>
         <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
           <div class="innate-title" id="innateTitle" style="display:grid;grid-template-columns:auto 1fr auto;align-items:center"><button disabled style="-webkit-appearance:none;appearance:none;background:none;border:none;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap;visibility:hidden">展開 ▼</button><span id="innateTitleText">先天數</span><button onclick="toggleNineGrid(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap">收合 ▲</button></div>
           <div id="nineGridSection"></div>
           <div id="nineGridSection2" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
+          <div id="nineGridSection3" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
         </div>
         <div class="flow-block" id="flowBlock">
           <div id="flowYearBlock"></div>
@@ -389,6 +420,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="panel" id="panel2"><div id="lunFlowTable"></div></div>
       <div class="panel hidden" id="panel3"><div id="gregFlowTable2"></div></div>
       <div class="panel hidden" id="panel4"><div id="lunFlowTable2"></div></div>
+      <div class="panel hidden" id="panel5"><div id="gregFlowTable3"></div></div>
+      <div class="panel hidden" id="panel6"><div id="lunFlowTable3"></div></div>
     </div>
   </div>
   <div style="text-align:center;padding:16px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
@@ -431,8 +464,9 @@ const T={
     today:'今天',
     inputNote:'請輸入西元陽曆生日',
     labelDate:'年', labelMonth:'月', labelDay:'日', labelHour:'時', labelMin:'分', labelTime:'時：分（選填）',
-    tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²',
-    leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組',
+    tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²', tab5:'陽曆流年表³', tab6:'陰曆流年表³',
+    leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組', bd2Divider:'— 第二組生日 —',
+    bd2HintOpen:'如果你除了閏月還有第二組生日，按這裡→ +', bd2HintClose:'收起第二組生日 －',
     innateTitle:'先天數',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
@@ -463,8 +497,9 @@ const T={
     today:'Today',
     inputNote:'Enter your birthday below',
     labelDate:'Year', labelMonth:'Month', labelDay:'Day', labelHour:'Hour', labelMin:'Minute', labelTime:'H：M (opt)',
-    tab0:'Life\nStages', tab1:'Solar¹\nTransit', tab2:'Lunar¹\nTransit', tab1no:'Solar\nTransit', tab2no:'Lunar\nTransit', tab3:'Solar²\nTransit', tab4:'Lunar²\nTransit',
-    leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2',
+    tab0:'Life\nStages', tab1:'Solar¹\nTransit', tab2:'Lunar¹\nTransit', tab1no:'Solar\nTransit', tab2no:'Lunar\nTransit', tab3:'Solar²\nTransit', tab4:'Lunar²\nTransit', tab5:'Solar³\nTransit', tab6:'Lunar³\nTransit',
+    leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2', bd2Divider:'— Second Birthday —',
+    bd2HintOpen:'Have a second birthday besides a leap month one? Tap here → +', bd2HintClose:'Hide second birthday －',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
@@ -492,6 +527,18 @@ const T={
   }
 };
 let lang='zh';
+let _bd2Open=false;
+let _secondSetReason=null; // 'leap' | 'bd2' | null，記錄目前第二組畫面是被閏月自動觸發還是手動第二生日觸發
+function toggleBd2(){
+  _bd2Open=!_bd2Open;
+  document.getElementById('bd2Row').classList.toggle('hidden',!_bd2Open);
+  document.getElementById('btnBd2Toggle').textContent=_bd2Open?t('bd2HintClose'):t('bd2HintOpen');
+  if(!_bd2Open){
+    ['inputYear2','inputMonth2','inputDay2','inputHour2','inputMin2'].forEach(id=>{document.getElementById(id).value='';});
+  }
+  const dateVal=document.getElementById('inputYear').value.trim();
+  if(dateVal) calculate();
+}
 function t(key){return T[lang][key];}
 
 function toggleLang(){
@@ -551,8 +598,16 @@ function applyLang(){
   const t4=document.getElementById('tab4');
   if(t3) t3.textContent=t('tab3');
   if(t4) t4.textContent=t('tab4');
+  const t5=document.getElementById('tab5');
+  const t6=document.getElementById('tab6');
+  if(t5) t5.textContent=t('tab5');
+  if(t6) t6.textContent=t('tab6');
   const ld=document.getElementById('leapDividerText');
-  if(ld) ld.textContent=t('leapDivider');
+  if(ld) ld.textContent=_secondSetReason==='bd2'?t('bd2Divider'):t('leapDivider');
+  const s3d=document.getElementById('slot3DividerText');
+  if(s3d) s3d.textContent=t('bd2Divider');
+  const btnBd2=document.getElementById('btnBd2Toggle');
+  if(btnBd2) btnBd2.textContent=_bd2Open?t('bd2HintClose'):t('bd2HintOpen');
   document.getElementById('recordsBtnText').textContent=t('recordsBtn');
   document.getElementById('recordsPanelTitle').textContent=t('recordsPanelTitle');
   document.getElementById('recCurrentTitle').textContent=t('recCurrentTitle');
@@ -587,6 +642,20 @@ function lunarToSolar(ly,lm,ld){
 
 // ── Numerology ────────────────────────────────────────────────
 function digs(n){return String(Math.abs(Math.floor(n))).split('').map(Number);}
+// 回傳 {pathNums: [...], destinyNums: [...]} 保留重複，分開後天數和主命數
+function destinyBreakdown(total){
+  if(total===0) return{pathNums:[0],destinyNums:[0]};
+  const parts=[];let n=total;
+  while(n>=10){parts.push(n);n=digs(n).reduce((a,b)=>a+b,0);}
+  parts.push(n);
+  const destiny=parts[parts.length-1];
+  const pathAll=[];
+  for(const p of parts.slice(0,-1)){
+    if(p>=10) digs(p).forEach(d=>pathAll.push(d));
+    else pathAll.push(p);
+  }
+  return{pathNums:pathAll,destinyNums:[destiny]};
+}
 function sumArr(a){return a.reduce((x,y)=>x+y,0);}
 function reduce(total){
   const parts=[total];let n=total;
@@ -1124,6 +1193,112 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
 }
 
 // ── Main ──────────────────────────────────────────────────────
+// 局部階段呈現：只有年→僅老年；有年月→老年+中年。主生日與第二組生日共用。
+function renderStagePartialSection(el,sy,sm,hasMonthFlag){
+  if(!hasMonthFlag){
+    const yD=digs(sy);
+    const elderStage=makeStage(sumArr(yD));
+    const innate=p2(sy).length===4?String(sy).split('').map(Number):yD;
+    const lv=calcLevel(innate,elderStage.destiny,elderStage.pathNums);
+    el.innerHTML=`
+    <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span></div>
+    <div class="num-header" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell label">${sy}</div></div>
+    <div class="num-row" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${lv.level}</span></div></div></div>`;
+  } else {
+    const yD=digs(sy),mD=p2(sm).split('').map(Number);
+    const innate=[...String(sy).split('').map(Number),...mD];
+    const elderStage=makeStage(sumArr(yD));
+    const midStage=makeStage(sumArr([...yD,...mD]));
+    const elvEl=calcLevel(innate,elderStage.destiny,elderStage.pathNums);
+    const mlvEl=calcLevel(innate,midStage.destiny,midStage.pathNums);
+    el.innerHTML=`
+    <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span></div>
+    <div class="num-header" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center"><div class="num-cell label">${sy}</div><div class="num-cell label">${p2(sm)}</div></div>
+    <div class="num-row" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center">
+      <div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${elvEl.level}</span></div></div>
+      <div class="num-cell"><div class="stage-val"><span class="stage-num">${midStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${mlvEl.level}</span></div></div>
+    </div>`;
+  }
+}
+
+// 額外組別（第二組／第三組）共用渲染輔助——用 targets 描述一組要寫入的 DOM id，
+// 讓「閏月自動第二組」「手動報錯戶口第二組」「兩者並存時的第三組」都能重用同一套邏輯
+function clearExtraSlot(targets){
+  document.getElementById(targets.dividerId).classList.add('hidden');
+  const gregEl=document.getElementById(targets.gregSectionId);
+  gregEl.innerHTML='';gregEl.classList.add('hidden');
+  const lunEl=document.getElementById(targets.lunSectionId);
+  lunEl.innerHTML='';lunEl.classList.add('hidden');
+  const ngEl=document.getElementById(targets.nineGridId);
+  ngEl.innerHTML='';ngEl.classList.add('hidden');
+  document.getElementById(targets.panelGregId).classList.add('hidden');
+  document.getElementById(targets.panelLunId).classList.add('hidden');
+  document.getElementById(targets.gregFlowTableId).innerHTML='';
+  document.getElementById(targets.lunFlowTableId).innerHTML='';
+  const tg=document.getElementById(targets.tabGregId); if(tg) tg.remove();
+  const tl=document.getElementById(targets.tabLunId); if(tl) tl.remove();
+}
+function renderExtraSlotPartial(targets,sy,sm,hasMonthFlag,dividerTextKey){
+  document.getElementById(targets.dividerId).classList.remove('hidden');
+  const dt=document.getElementById(targets.dividerTextId); if(dt) dt.textContent=t(dividerTextKey);
+  const gregEl=document.getElementById(targets.gregSectionId);
+  renderStagePartialSection(gregEl,sy,sm,hasMonthFlag);
+  gregEl.classList.remove('hidden');
+  const lunEl=document.getElementById(targets.lunSectionId);
+  lunEl.innerHTML='';lunEl.classList.add('hidden');
+  document.getElementById(targets.nineGridId).classList.add('hidden');
+  document.getElementById(targets.panelGregId).classList.add('hidden');
+  document.getElementById(targets.panelLunId).classList.add('hidden');
+  document.getElementById(targets.gregFlowTableId).innerHTML='';
+  document.getElementById(targets.lunFlowTableId).innerHTML='';
+  const tg=document.getElementById(targets.tabGregId); if(tg) tg.remove();
+  const tl=document.getElementById(targets.tabLunId); if(tl) tl.remove();
+}
+// 回傳 {gregY,gregM,gregD,lunY,lunM,lunD,sup} 供合併流年表使用；ly/lm/ld 由呼叫端算好傳入
+// （閏月的第二組農曆是用月份推算，不是重新換算，避免跟主生日對不起來）
+function renderExtraSlotFull(targets,sy,sm,sd,ly,lm,ld,sh,smn,sup,dividerTextKey,isLeapMonth=false){
+  document.getElementById(targets.dividerId).classList.remove('hidden');
+  const dt=document.getElementById(targets.dividerTextId); if(dt) dt.textContent=t(dividerTextKey);
+  const gregEl=document.getElementById(targets.gregSectionId);
+  const lunEl=document.getElementById(targets.lunSectionId);
+  const gInnate=String(sy).split('').concat(p2(sm).split(''),p2(sd).split('')).map(Number);
+  const lInnate=String(ly).split('').concat(p2(lm).split(''),p2(ld).split('')).map(Number);
+  renderCalSection(gregEl,true,`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate,false);
+  renderCalSection(lunEl,false,`${ly}/${isLeapMonth?t('leap'):''}${p2(lm)}/${p2(ld)}`,ly,lm,ld,sh,smn,lInnate,true,isLeapMonth);
+  gregEl.classList.remove('hidden');lunEl.classList.remove('hidden');
+  const gBreak=destinyBreakdown(sumArr([...String(sy).split('').map(Number),...p2(sm).split('').map(Number),...p2(sd).split('').map(Number)]));
+  const lBreak=destinyBreakdown(sumArr([...String(ly).split('').map(Number),...p2(lm).split('').map(Number),...p2(ld).split('').map(Number)]));
+  renderNineGrids(gInnate,lInnate,gBreak.pathNums,lBreak.pathNums,gBreak.destinyNums,lBreak.destinyNums,'','',targets.nineGridId);
+  document.getElementById(targets.nineGridId).classList.remove('hidden');
+  renderFlowYearTable(document.getElementById(targets.gregFlowTableId),sy,sm,sd,gInnate,true,false,sh,smn);
+  renderFlowYearTable(document.getElementById(targets.lunFlowTableId),ly,lm,ld,lInnate,false,isLeapMonth,sh,smn);
+  document.getElementById(targets.panelGregId).classList.remove('hidden');
+  document.getElementById(targets.panelLunId).classList.remove('hidden');
+  const tabsEl=document.querySelector('.tabs');
+  if(!document.getElementById(targets.tabGregId)){
+    const tg=document.createElement('div');
+    tg.className='tab';tg.id=targets.tabGregId;tg.textContent=t(targets.tabGregKey);
+    tg.onclick=()=>switchTab(targets.tabGregIdx);
+    tabsEl.appendChild(tg);
+  }
+  if(!document.getElementById(targets.tabLunId)){
+    const tl=document.createElement('div');
+    tl.className='tab';tl.id=targets.tabLunId;tl.textContent=t(targets.tabLunKey);
+
+    tl.onclick=()=>switchTab(targets.tabLunIdx);
+    tabsEl.appendChild(tl);
+  }
+  return{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup};
+}
+const SLOT2_TARGETS={gregSectionId:'gregSection2',lunSectionId:'lunSection2',nineGridId:'nineGridSection2',
+  gregFlowTableId:'gregFlowTable2',lunFlowTableId:'lunFlowTable2',panelGregId:'panel3',panelLunId:'panel4',
+  tabGregId:'tab3',tabLunId:'tab4',tabGregIdx:3,tabLunIdx:4,tabGregKey:'tab3',tabLunKey:'tab4',
+  dividerId:'leapDivider',dividerTextId:'leapDividerText'};
+const SLOT3_TARGETS={gregSectionId:'gregSection3',lunSectionId:'lunSection3',nineGridId:'nineGridSection3',
+  gregFlowTableId:'gregFlowTable3',lunFlowTableId:'lunFlowTable3',panelGregId:'panel5',panelLunId:'panel6',
+  tabGregId:'tab5',tabLunId:'tab6',tabGregIdx:5,tabLunIdx:6,tabGregKey:'tab5',tabLunKey:'tab6',
+  dividerId:'slot3Divider',dividerTextId:'slot3DividerText'};
+
 function renderPartial(){_resetFlowNav();
   const syRaw=document.getElementById('inputYear').value.trim();
   const smRaw=document.getElementById('inputMonth').value.trim();
@@ -1152,6 +1327,20 @@ function renderPartial(){_resetFlowNav();
   const sh=shRaw.length>0&&parseInt(shRaw)>=0&&parseInt(shRaw)<=23?parseInt(shRaw):null;
   const smn=smnRaw.length>0&&parseInt(smnRaw)>=0&&parseInt(smnRaw)<=59?parseInt(smnRaw):null;
 
+  // 手動第二組生日（報錯戶口等情況），需完整年月日才算數
+  const y2Raw=document.getElementById('inputYear2').value.trim();
+  const m2Raw=document.getElementById('inputMonth2').value.trim();
+  const d2Raw=document.getElementById('inputDay2').value.trim();
+  const h2Raw=document.getElementById('inputHour2').value.trim();
+  const mn2Raw=document.getElementById('inputMin2').value.trim();
+  const sy2raw=parseInt(y2Raw)||0, sm2raw=parseInt(m2Raw)||0, sd2raw=parseInt(d2Raw)||0;
+  const hasBd2Year=y2Raw.length===4&&sy2raw>0;
+  const hasBd2Month=m2Raw.length>0&&sm2raw>=1&&sm2raw<=12;
+  const hasBd2Day=d2Raw.length>0&&sd2raw>=1&&sd2raw<=31;
+  const hasBd2Full=hasBd2Year&&hasBd2Month&&hasBd2Day;
+  const sh2=h2Raw.length>0&&parseInt(h2Raw)>=0&&parseInt(h2Raw)<=23?parseInt(h2Raw):null;
+  const smn2=mn2Raw.length>0&&parseInt(mn2Raw)>=0&&parseInt(mn2Raw)<=59?parseInt(mn2Raw):null;
+
   // 決定要顯示幾欄
   // 只有年：老年
   // 年月：老年、中年
@@ -1161,14 +1350,7 @@ function renderPartial(){_resetFlowNav();
 
   if(hasYear&&!hasMonth){
     // 只顯示老年數（陽曆）
-    const yD=digs(sy);
-    const elderStage=makeStage(sumArr(yD));
-    const innate=p2(sy).length===4?String(sy).split('').map(Number):yD;
-    const lv=calcLevel(innate,elderStage.destiny,elderStage.pathNums);
-    gregSection.innerHTML=`
-    <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span></div>
-    <div class="num-header" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell label">${sy}</div></div>
-    <div class="num-row" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${lv.level}</span></div></div></div>`;
+    renderStagePartialSection(gregSection,sy,sm,false);
     lunSection.innerHTML='';
     document.getElementById('innateSection').style.display='none';
     document.getElementById('flowBlock').style.display='none';
@@ -1179,19 +1361,7 @@ function renderPartial(){_resetFlowNav();
 
   if(hasYear&&hasMonth&&!hasDay){
     // 顯示老年、中年（陽曆）
-    const yD=digs(sy),mD=p2(sm).split('').map(Number);
-    const innate=[...String(sy).split('').map(Number),...mD];
-    const elderStage=makeStage(sumArr(yD));
-    const midStage=makeStage(sumArr([...yD,...mD]));
-    const elvEl=calcLevel(innate,elderStage.destiny,elderStage.pathNums);
-    const mlvEl=calcLevel(innate,midStage.destiny,midStage.pathNums);
-    gregSection.innerHTML=`
-    <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span></div>
-    <div class="num-header" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center"><div class="num-cell label">${sy}</div><div class="num-cell label">${p2(sm)}</div></div>
-    <div class="num-row" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center">
-      <div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${elvEl.level}</span></div></div>
-      <div class="num-cell"><div class="stage-val"><span class="stage-num">${midStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${mlvEl.level}</span></div></div>
-    </div>`;
+    renderStagePartialSection(gregSection,sy,sm,true);
     lunSection.innerHTML='';
     document.getElementById('innateSection').style.display='none';
     document.getElementById('flowBlock').style.display='none';
@@ -1214,20 +1384,6 @@ function renderPartial(){_resetFlowNav();
     // 青年數（主命數）的所有數字，保留重複
     const gDestinyTotal=sumArr([...String(sy).split('').map(Number),...p2(sm).split('').map(Number),...p2(sd).split('').map(Number)]);
     const lDestinyTotal=sumArr([...String(ly).split('').map(Number),...p2(lm).split('').map(Number),...p2(ld).split('').map(Number)]);
-    function destinyBreakdown(total){
-      // 回傳 {pathNums: [...], destinyNums: [...]} 保留重複，分開後天數和主命數
-      if(total===0) return{pathNums:[0],destinyNums:[0]};
-      const parts=[];let n=total;
-      while(n>=10){parts.push(n);n=digs(n).reduce((a,b)=>a+b,0);}
-      parts.push(n);
-      const destiny=parts[parts.length-1];
-      const pathAll=[];
-      for(const p of parts.slice(0,-1)){
-        if(p>=10) digs(p).forEach(d=>pathAll.push(d));
-        else pathAll.push(p);
-      }
-      return{pathNums:pathAll,destinyNums:[destiny]};
-    }
     const gBreak=destinyBreakdown(gDestinyTotal);
     const lBreak=destinyBreakdown(lDestinyTotal);
     const gDestinyStr=makeStage(gDestinyTotal).str;
@@ -1241,74 +1397,68 @@ function renderPartial(){_resetFlowNav();
     renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true,false,sh,smn);
     renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false,isLeap,sh,smn);
 
-    // 閏月第二組
-    const leapDivider=document.getElementById('leapDivider');
-    const gregSection2=document.getElementById('gregSection2');
-    const lunSection2=document.getElementById('lunSection2');
+    // 第二組／第三組：閏月自動觸發＝一定佔 slot2；手動第二組生日，若閏月已佔用 slot2 則落在 slot3，否則也用 slot2
+    let flowSetsAll=[...flowSets1];
     if(isLeap){
+      _secondSetReason='leap';
       const solar2=lunarToSolar(ly,lm,ld);
       if(solar2){
         const sy2=solar2.year,sm2=solar2.month,sd2=solar2.day;
         const lm2=lm===12?1:lm+1;
         const ly2=lm===12?ly+1:ly;
-        const gInnate2=String(sy2).split('').concat(p2(sm2).split(''),p2(sd2).split('')).map(Number);
-        const lInnate2=String(ly2).split('').concat(p2(lm2).split(''),p2(ld).split('')).map(Number);
-        renderCalSection(gregSection2,true,`${sy2}/${p2(sm2)}/${p2(sd2)}`,sy2,sm2,sd2,sh,smn,gInnate2,false);
-        renderCalSection(lunSection2,false,`${ly2}/${p2(lm2)}/${p2(ld)}`,ly2,lm2,ld,sh,smn,lInnate2);
-        const gBreak2=destinyBreakdown(sumArr([...String(sy2).split('').map(Number),...p2(sm2).split('').map(Number),...p2(sd2).split('').map(Number)]));
-        const lBreak2=destinyBreakdown(sumArr([...String(ly2).split('').map(Number),...p2(lm2).split('').map(Number),...p2(ld).split('').map(Number)]));
-        renderNineGrids(gInnate2,lInnate2,gBreak2.pathNums,lBreak2.pathNums,gBreak2.destinyNums,lBreak2.destinyNums,'','','nineGridSection2');
-        document.getElementById('nineGridSection2').classList.remove('hidden');
-        renderFlowYearTable(document.getElementById('gregFlowTable2'),sy2,sm2,sd2,gInnate2,true,false,sh,smn);
-        renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false,false,sh,smn);
-        const flowSets2=[...flowSets1,{gregY:sy2,gregM:sm2,gregD:sd2,lunY:ly2,lunM:lm2,lunD:ld,sup:'²'}];
-        renderFlowYear(document.getElementById('flowYearBlock'),flowSets2,nowY,nowM,nowD);
-        _initFlowNav(flowSets2,nowY,nowM);
-        renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets2,nowY,nowM,nowD);
-        renderFlowDay(document.getElementById('flowDayBlock'),flowSets2,nowY,nowM,nowD);
-        leapDivider.classList.remove('hidden');
-        gregSection2.classList.remove('hidden');
-        lunSection2.classList.remove('hidden');
-        document.getElementById('panel3').classList.remove('hidden');
-        document.getElementById('panel4').classList.remove('hidden');
-        // 加 tab3、tab4（避免重複）
-        const tabsEl=document.querySelector('.tabs');
-        if(!document.getElementById('tab3')){
-          const t3=document.createElement('div');
-          t3.className='tab';t3.id='tab3';t3.textContent=t('tab3');
-          t3.onclick=()=>switchTab(3);
-          tabsEl.appendChild(t3);
-        }
-        if(!document.getElementById('tab4')){
-          const t4=document.createElement('div');
-          t4.className='tab';t4.id='tab4';t4.textContent=t('tab4');
-          t4.onclick=()=>switchTab(4);
-          tabsEl.appendChild(t4);
-        }
-        document.getElementById('tab1').textContent=t('tab1');
-        document.getElementById('tab2').textContent=t('tab2');
+        const entry=renderExtraSlotFull(SLOT2_TARGETS,sy2,sm2,sd2,ly2,lm2,ld,sh,smn,'²','leapDivider');
+        if(entry) flowSetsAll.push(entry);
+      } else {
+        clearExtraSlot(SLOT2_TARGETS);
       }
+      // 閏月已佔用 slot2，手動第二組生日（若有）落在 slot3
+      if(hasBd2Full){
+        const sy3=parseInt(y2Raw),sm3=parseInt(m2Raw),sd3=parseInt(d2Raw);
+        const lunar3=solarToLunar(sy3,sm3,sd3);
+        if(lunar3){
+          const entry=renderExtraSlotFull(SLOT3_TARGETS,sy3,sm3,sd3,lunar3.year,lunar3.month,lunar3.day,sh2,smn2,'³','bd2Divider',lunar3.isLeap);
+          if(entry) flowSetsAll.push(entry);
+        } else {
+          clearExtraSlot(SLOT3_TARGETS);
+        }
+      } else if(hasBd2Year){
+        renderExtraSlotPartial(SLOT3_TARGETS,sy2raw,sm2raw,hasBd2Month,'bd2Divider');
+      } else {
+        clearExtraSlot(SLOT3_TARGETS);
+      }
+    } else if(hasBd2Full){
+      _secondSetReason='bd2';
+      const sy2=parseInt(y2Raw),sm2=parseInt(m2Raw),sd2=parseInt(d2Raw);
+      const lunar2=solarToLunar(sy2,sm2,sd2);
+      if(lunar2){
+        const entry=renderExtraSlotFull(SLOT2_TARGETS,sy2,sm2,sd2,lunar2.year,lunar2.month,lunar2.day,sh2,smn2,'²','bd2Divider',lunar2.isLeap);
+        if(entry) flowSetsAll.push(entry);
+      } else {
+        clearExtraSlot(SLOT2_TARGETS);
+      }
+      clearExtraSlot(SLOT3_TARGETS);
+    } else if(hasBd2Year){
+      // 第二組生日只填了年，或年+月：比照主生日的局部呈現（僅老年，或老年+中年）
+      _secondSetReason='bd2';
+      renderExtraSlotPartial(SLOT2_TARGETS,sy2raw,sm2raw,hasBd2Month,'bd2Divider');
+      clearExtraSlot(SLOT3_TARGETS);
     } else {
-      // 非閏月：單組流年流月流日
-      renderFlowYear(document.getElementById('flowYearBlock'),flowSets1,nowY,nowM,nowD);
-      _initFlowNav(flowSets1,nowY,nowM);
-      renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets1,nowY,nowM,nowD);
-      renderFlowDay(document.getElementById('flowDayBlock'),flowSets1,nowY,nowM,nowD);
-      leapDivider.classList.add('hidden');
-      gregSection2.classList.add('hidden');
-      lunSection2.classList.add('hidden');
-      document.getElementById('nineGridSection2').classList.add('hidden');
-      document.getElementById('panel3').classList.add('hidden');
-      document.getElementById('panel4').classList.add('hidden');
-      document.getElementById('gregFlowTable2').innerHTML='';
-      document.getElementById('lunFlowTable2').innerHTML='';
-      const t3=document.getElementById('tab3');
-      const t4=document.getElementById('tab4');
-      if(t3) t3.remove();
-      if(t4) t4.remove();
+      _secondSetReason=null;
+      clearExtraSlot(SLOT2_TARGETS);
+      clearExtraSlot(SLOT3_TARGETS);
+    }
+    // tab1/tab2（陽曆／陰曆流年表）是否標註上標數字，取決於合併流年表是否有多組
+    if(flowSetsAll.length>1){
+      document.getElementById('tab1').textContent=t('tab1');
+      document.getElementById('tab2').textContent=t('tab2');
+    } else {
       document.getElementById('tab1').textContent=t('tab1no');
       document.getElementById('tab2').textContent=t('tab2no');
     }
+    renderFlowYear(document.getElementById('flowYearBlock'),flowSetsAll,nowY,nowM,nowD);
+    _initFlowNav(flowSetsAll,nowY,nowM);
+    renderFlowMonth(document.getElementById('flowMonthBlock'),flowSetsAll,nowY,nowM,nowD);
+    renderFlowDay(document.getElementById('flowDayBlock'),flowSetsAll,nowY,nowM,nowD);
     main.classList.remove('hidden');
     initScreenshotBtn();
   }
@@ -1330,7 +1480,7 @@ function calculate(silent=false){
 
 function switchTab(idx){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
-  ['panel0','panel1','panel2','panel3','panel4'].forEach((id,i)=>{
+  ['panel0','panel1','panel2','panel3','panel4','panel5','panel6'].forEach((id,i)=>{
     const p=document.getElementById(id);
     if(p&&!p.classList.contains('hidden')) p.classList.toggle('active',i===idx);
   });
@@ -1346,35 +1496,40 @@ function switchTab(idx){
     `<span style="font-size:13px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
 })();
 
-// 五欄位輸入事件
-const _inputIds=['inputYear','inputMonth','inputDay','inputHour','inputMin'];
-_inputIds.forEach(function(id){
-  const el=document.getElementById(id);
-  el.addEventListener('input',function(){
-    this.value=this.value.replace(/[^0-9]/g,'');
-    // 自動跳下一格
-    const maxLen=parseInt(this.getAttribute('maxlength'));
-    if(this.value.length>=maxLen){
-      const next=_inputIds[_inputIds.indexOf(id)+1];
-      if(next) document.getElementById(next).focus();
-    }
-    if(_pairSel.length){_pairSel=[];renderRecordList();} // 輸入新生日時清空合盤勾選
-    renderPartial();
-  });
-  el.addEventListener('keydown',function(e){
-    if(e.key==='Backspace'&&this.value===''){
-      const prev=_inputIds[_inputIds.indexOf(id)-1];
-      if(prev){
-        e.preventDefault();
-        const prevEl=document.getElementById(prev);
-        prevEl.focus();
-        // 移到末位
-        const len=prevEl.value.length;
-        prevEl.setSelectionRange(len,len);
+// 生日欄位輸入事件（跳格 / backspace），可重複套用在主生日與第二組生日
+function bindDateInputNav(ids){
+  ids.forEach(function(id){
+    const el=document.getElementById(id);
+    el.addEventListener('input',function(){
+      this.value=this.value.replace(/[^0-9]/g,'');
+      // 自動跳下一格
+      const maxLen=parseInt(this.getAttribute('maxlength'));
+      if(this.value.length>=maxLen){
+        const next=ids[ids.indexOf(id)+1];
+        if(next) document.getElementById(next).focus();
       }
-    }
+      if(_pairSel.length){_pairSel=[];renderRecordList();} // 輸入新生日時清空合盤勾選
+      renderPartial();
+    });
+    el.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&this.value===''){
+        const prev=ids[ids.indexOf(id)-1];
+        if(prev){
+          e.preventDefault();
+          const prevEl=document.getElementById(prev);
+          prevEl.focus();
+          // 移到末位
+          const len=prevEl.value.length;
+          prevEl.setSelectionRange(len,len);
+        }
+      }
+    });
   });
-});
+}
+const _inputIds=['inputYear','inputMonth','inputDay','inputHour','inputMin'];
+const _inputIds2=['inputYear2','inputMonth2','inputDay2','inputHour2','inputMin2'];
+bindDateInputNav(_inputIds);
+bindDateInputNav(_inputIds2);
 function toggleAllBdHeaders(btn){
   const headers=document.querySelectorAll('.bd-header');
   if(!headers.length) return;
@@ -1456,12 +1611,29 @@ function currentBirthdayParams(){
   };
 }
 
+// 第二組生日（報錯戶口等情況），需完整年月日才算數；只有局部輸入時回傳 null，不存
+function currentBd2Params(){
+  const y=parseInt(document.getElementById('inputYear2').value)||0;
+  const m=parseInt(document.getElementById('inputMonth2').value)||0;
+  const d=parseInt(document.getElementById('inputDay2').value)||0;
+  const hRaw=document.getElementById('inputHour2').value;
+  const mnRaw=document.getElementById('inputMin2').value;
+  if(!y||!m||!d||y<1||m<1||m>12||d<1||d>31) return null;
+  return{
+    year:y,month:m,day:d,
+    hour:hRaw!==''?parseInt(hRaw):null,
+    minute:mnRaw!==''?parseInt(mnRaw):null
+  };
+}
+
 function renderRecCurrentDate(){
   const el=document.getElementById('recCurrentDate');
   const p=currentBirthdayParams();
   if(!p){el.textContent=t('recNoDate');return;}
   const timeStr=(p.hour!==null)?` ${p2(p.hour)}:${p.minute!==null?p2(p.minute):'--'}`:'';
-  el.textContent=`${p.year}/${p2(p.month)}/${p2(p.day)}${timeStr}`;
+  const p2bd=currentBd2Params();
+  const bd2Str=p2bd?`　+　${p2bd.year}/${p2(p2bd.month)}/${p2(p2bd.day)}`:'';
+  el.textContent=`${p.year}/${p2(p.month)}/${p2(p.day)}${timeStr}${bd2Str}`;
 }
 
 function openRecordsPanel(){
@@ -1484,10 +1656,13 @@ function saveRecord(){
   const p=currentBirthdayParams();
   if(!p){setRecMsg(t('recNeedDate'),'err');return;}
   const nameRaw=document.getElementById('recNameInput').value.trim();
+  const p2bd=currentBd2Params(); // 完整才回傳，否則 null（不存）
   const record={
     id:Date.now(),
     name:nameRaw||t('recUnnamed'),
     year:p.year,month:p.month,day:p.day,hour:p.hour,minute:p.minute,
+    year2:p2bd?p2bd.year:null,month2:p2bd?p2bd.month:null,day2:p2bd?p2bd.day:null,
+    hour2:p2bd?p2bd.hour:null,minute2:p2bd?p2bd.minute:null,
     createdAt:new Date().toISOString()
   };
   const list=getRecords();
@@ -1517,7 +1692,14 @@ function recordCard(r){
   const gregBlock=buildCalBlock('+',r.year,r.month,r.day,r.hour,r.minute,false);
   const lunar=solarToLunar(r.year,r.month,r.day);
   const lunBlock=lunar?buildCalBlock('-',lunar.year,lunar.month,lunar.day,r.hour,r.minute,lunar.isLeap):'';
-  return gregBlock+lunBlock;
+  let bd2Block='';
+  if(r.year2){
+    const gregBlock2=buildCalBlock('+',r.year2,r.month2,r.day2,r.hour2,r.minute2,false);
+    const lunar2=solarToLunar(r.year2,r.month2,r.day2);
+    const lunBlock2=lunar2?buildCalBlock('-',lunar2.year,lunar2.month,lunar2.day,r.hour2,r.minute2,lunar2.isLeap):'';
+    bd2Block=`<div class="rec-bd2-divider">${t('bd2Divider')}</div>`+gregBlock2+lunBlock2;
+  }
+  return gregBlock+lunBlock+bd2Block;
 }
 
 function loadRecord(id){
@@ -1529,6 +1711,22 @@ function loadRecord(id){
   document.getElementById('inputDay').value=p2(r.day);
   document.getElementById('inputHour').value=r.hour!==null?p2(r.hour):'';
   document.getElementById('inputMin').value=r.minute!==null?p2(r.minute):'';
+  if(r.year2){
+    document.getElementById('inputYear2').value=r.year2;
+    document.getElementById('inputMonth2').value=p2(r.month2);
+    document.getElementById('inputDay2').value=p2(r.day2);
+    document.getElementById('inputHour2').value=r.hour2!==null?p2(r.hour2):'';
+    document.getElementById('inputMin2').value=r.minute2!==null?p2(r.minute2):'';
+    _bd2Open=true;
+    document.getElementById('bd2Row').classList.remove('hidden');
+    document.getElementById('btnBd2Toggle').textContent=t('bd2HintClose');
+  } else {
+    // 清空並收起第二組欄位，避免殘留上一筆紀錄的第二生日
+    ['inputYear2','inputMonth2','inputDay2','inputHour2','inputMin2'].forEach(fid=>{document.getElementById(fid).value='';});
+    _bd2Open=false;
+    document.getElementById('bd2Row').classList.add('hidden');
+    document.getElementById('btnBd2Toggle').textContent=t('bd2HintOpen');
+  }
   _pairSel=[]; // 載入紀錄等於切換到新生日，清空合盤勾選
   closeRecordsPanel();
   calculate();
@@ -1633,14 +1831,24 @@ function togglePairSel(id,cb){
 function pairBlueprints(r){
   const lunar=solarToLunar(r.year,r.month,r.day);
   if(!lunar) return [];
-  const bps=[{gy:r.year,gm:r.month,gd:r.day,ly:lunar.year,lm:lunar.month,ld:lunar.day,isLeap:lunar.isLeap,sup:''}];
+  const bps=[{gy:r.year,gm:r.month,gd:r.day,ly:lunar.year,lm:lunar.month,ld:lunar.day,isLeap:lunar.isLeap,sup:'',h:r.hour,mn:r.minute}];
   if(lunar.isLeap){
     bps[0].sup='¹';
     const s2=lunarToSolar(lunar.year,lunar.month,lunar.day);
     if(s2){
       const lm2=lunar.month===12?1:lunar.month+1;
       const ly2=lunar.month===12?lunar.year+1:lunar.year;
-      bps.push({gy:s2.year,gm:s2.month,gd:s2.day,ly:ly2,lm:lm2,ld:lunar.day,isLeap:false,sup:'²'});
+      bps.push({gy:s2.year,gm:s2.month,gd:s2.day,ly:ly2,lm:lm2,ld:lunar.day,isLeap:false,sup:'²',h:r.hour,mn:r.minute});
+    }
+  }
+  // 手動第二組生日（報錯戶口等情況）：紀錄裡有存的話，視為第三種可能生日一併交叉組合
+  // 時分獨立帶入（可能跟主生日不同），閏月則佔用 sup=1/2，第二組生日永遠排在最後一個 sup
+  if(r.year2){
+    const lunar2=solarToLunar(r.year2,r.month2,r.day2);
+    if(lunar2){
+      if(bps.length===1) bps[0].sup='¹';
+      const sup=bps.length===1?'²':'³';
+      bps.push({gy:r.year2,gm:r.month2,gd:r.day2,ly:lunar2.year,lm:lunar2.month,ld:lunar2.day,isLeap:lunar2.isLeap,sup,h:r.hour2,mn:r.minute2});
     }
   }
   return bps;
@@ -1773,9 +1981,9 @@ function buildPairStageBlock(y,m,d,h,mn,isGreg,isLeap){
 }
 
 function pairPersonLine(r,bps){
-  const h=(r.hour!==null&&r.hour!==undefined)?r.hour:null;
-  const mn=(r.minute!==null&&r.minute!==undefined)?r.minute:null;
   return bps.map(bp=>{
+    const h=(bp.h!==null&&bp.h!==undefined)?bp.h:null;
+    const mn=(bp.mn!==null&&bp.mn!==undefined)?bp.mn:null;
     const nameDiv=`<div class="pp-name">${escapeHtmlRec(r.name)}${bp.sup}</div>`;
     const gregBlock=buildPairStageBlock(bp.gy,bp.gm,bp.gd,h,mn,true,false);
     const lunBlock=buildPairStageBlock(bp.ly,bp.lm,bp.ld,h,mn,false,bp.isLeap);
@@ -1810,7 +2018,7 @@ function renderPairPanel(L,R){
   let bondHtml='',rhythmHtml='';
   bpsL.forEach(bl=>{bpsR.forEach(br=>{
     const label=multi?`<div class="pair-set-label">${escapeHtmlRec(L.name)}${bl.sup} × ${escapeHtmlRec(R.name)}${br.sup}</div>`:'';
-    bondHtml+=label+renderBondSet(pairStageMap(bl,L.hour,L.minute),pairStageMap(br,R.hour,R.minute));
+    bondHtml+=label+renderBondSet(pairStageMap(bl,bl.h,bl.mn),pairStageMap(br,br.h,br.mn));
     rhythmHtml+=label+renderRhythmSet(bl,br,L.name,R.name,startYear);
   });});
   const rhythmNav=`<div class="rhythm-nav">
