@@ -29,8 +29,6 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .input-group input.invalid{border-color:#e74c3c;background:#fff5f5}
 .input-group input::placeholder{color:#ccc}
 .input-group.date,.input-group.time{flex:1}
-.calc-btn{width:100%;padding:13px;background:#fff;border:1px solid #bbb;border-radius:8px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:15px;color:#555;letter-spacing:.2em;cursor:pointer;margin-top:4px;transition:all .15s}
-.calc-btn:hover{background:#f0f0f0;border-color:#999}
 .tabs{display:flex;border-bottom:1px solid #e8e8e8}
 .tab{flex:1;padding:12px 4px;font-size:13px;letter-spacing:.05em;text-align:center;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:pre-line;line-height:1.4}
 .tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
@@ -60,8 +58,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .inn.has{color:#555}
 .inn.obs{color:#c0392b;font-weight:500}
 .flow-block{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:32px;text-align:center}
-.flow-num,.flow-path,.flow-dest{font-size:13px;font-family:'MPLUS1Code',monospace}
-.flow-num{color:#1a1a1a}
+.flow-path,.flow-dest{font-size:13px;font-family:'MPLUS1Code',monospace}
 .flow-path{color:#999}
 .flow-dest{color:#1a1a1a}
 .flow-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
@@ -197,7 +194,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .pair-panel-body{flex:1;overflow-y:auto;padding:8px 12px 32px}
 .pair-persons{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:14px;padding:10px 0 4px}
 .pp-col{flex:1 1 0;min-width:0}
-.pp-col .pp-name{font-family:'M PLUS Rounded 1c',sans-serif;font-weight:600;font-size:12px;color:#1a1a1a;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pp-col .pp-name{font-family:'M PLUS Rounded 1c',sans-serif;font-weight:500;font-size:12px;color:#1a1a1a;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pp-block+.pp-block{margin-top:16px;padding-top:14px;border-top:1px dashed #ddd}
 .pair-persons .num-header{padding-bottom:5px;margin-bottom:6px}
 .pair-persons .cal-title{font-size:8px;margin:6px 0 2px;font-weight:500}
@@ -215,59 +212,59 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .pair-sec-sub{font-size:10px;color:#555;letter-spacing:.1em;text-align:center;margin-bottom:10px}
 .pair-set-label{font-size:11px;color:#b8860b;text-align:center;letter-spacing:.1em;margin:14px 0 2px;font-family:'MPLUS1Code',monospace}
 /* 矩陣（緣／份共用） */
-.yb-mat{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px}
-.yb-rel{font-size:15px;font-weight:500;color:#1a1a1a;font-family:'MPLUS1Code',monospace;line-height:1.4;text-align:center}
-.yb-mid{display:flex;align-items:center;gap:5px}
-.yb-mid .yb-rel{min-width:20px;display:inline-block}
-.yb-bracket{display:inline-flex;align-items:center}
-.yb-bkt{font-size:20px;color:#bbb;font-weight:300;line-height:1;font-family:'M PLUS Rounded 1c',sans-serif}
-.yb-inner{display:grid;grid-template-columns:repeat(2,14px);gap:1px 6px;font-size:12px;color:#555;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.3;padding:2px 5px}
-.yb-label{font-size:10px;color:#999;margin-top:5px;letter-spacing:.05em;text-align:center}
-.yb-sub{font-size:10px;color:#ccc;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.4}
-.yb-blank{visibility:hidden}
-.yuan-row{display:flex;justify-content:flex-start;gap:6px;overflow-x:auto;padding:8px 2px;-webkit-overflow-scrolling:touch}
-.yuan-row::after,.yuan-row::before{content:'';margin:auto}
+.relnum-matrix{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px}
+.relnum{font-size:15px;font-weight:500;color:#1a1a1a;font-family:'MPLUS1Code',monospace;line-height:1.4;text-align:center}
+.relnum-mid{display:flex;align-items:center;gap:5px}
+.relnum-mid .relnum{min-width:20px;display:inline-block}
+.relnum-bracket{display:inline-flex;align-items:center}
+.relnum-bkt{font-size:20px;color:#bbb;font-weight:300;line-height:1;font-family:'M PLUS Rounded 1c',sans-serif}
+.relnum-inner{display:grid;grid-template-columns:repeat(2,14px);gap:1px 6px;font-size:12px;color:#555;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.3;padding:2px 5px}
+.relnum-label{font-size:10px;color:#999;margin-top:5px;letter-spacing:.05em;text-align:center}
+.relnum-sub{font-size:10px;color:#ccc;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.4}
+.relnum-blank{visibility:hidden}
+.bond-row{display:flex;justify-content:flex-start;gap:6px;overflow-x:auto;padding:8px 2px;-webkit-overflow-scrolling:touch}
+.bond-row::after,.bond-row::before{content:'';margin:auto}
 /* 份：固定六欄 grid，不橫滑；minmax(0,1fr) 讓欄寬不被內容撐開 */
-.fen-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:8px 2px 12px}
-.fen-seg{border-left:1px solid #e0e0e0;padding:0 4px;display:flex;flex-direction:column;align-items:center;min-width:0}
-.fen-seg:last-child{border-right:1px solid #e0e0e0}
-.fen-slot{min-height:38px;display:flex;flex-direction:column;align-items:flex-start;align-self:flex-start;width:100%}
-.fen-slot-top{justify-content:flex-end;margin-bottom:6px}
-.fen-slot-bottom{justify-content:flex-start;margin-top:6px}
-.fen-date{font-size:10px;color:#333;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;white-space:nowrap}
-.fen-name{font-size:9px;color:#999;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.fen-flow{font-size:9px;color:#bbb;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;white-space:nowrap}
-.fen-nav{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 8px}
-.fen-nav-btn{font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s;white-space:nowrap}
-.fen-nav-btn:hover{color:#555;border-color:#bbb}
-.fen-nav-btn:active{background:#f0f0f0}
-.fen-nav-range{font-size:11px;color:#999;font-family:'MPLUS1Code',monospace;text-align:center}
+.rhythm-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));padding:8px 2px 12px}
+.rhythm-seg{border-left:1px solid #e0e0e0;padding:0 4px;display:flex;flex-direction:column;align-items:center;min-width:0}
+.rhythm-seg:last-child{border-right:1px solid #e0e0e0}
+.rhythm-slot{min-height:38px;display:flex;flex-direction:column;align-items:flex-start;align-self:flex-start;width:100%}
+.rhythm-slot-top{justify-content:flex-end;margin-bottom:6px}
+.rhythm-slot-bottom{justify-content:flex-start;margin-top:6px}
+.rhythm-date{font-size:10px;color:#333;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;white-space:nowrap}
+.rhythm-name{font-size:9px;color:#999;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rhythm-flow{font-size:9px;color:#bbb;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3;white-space:nowrap}
+.rhythm-nav{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 8px}
+.rhythm-nav-btn{font-size:11px;color:#666;border:1px solid #ddd;border-radius:20px;padding:3px 10px;text-align:center;cursor:pointer;background:none;white-space:nowrap}
+.rhythm-nav-btn:hover{color:#555;border-color:#bbb}
+.rhythm-nav-btn:active{background:#f0f0f0}
+.rhythm-nav-range{font-size:11px;color:#1a1a1a;font-family:'MPLUS1Code',monospace;text-align:center}
 
-/* 窄螢幕（手機）專用：緣的九宮格、份的時間軸都共用 yb-* 矩陣樣式，
+/* 窄螢幕（手機）專用：緣的九宮格、份的時間軸都共用 relnum-* 矩陣樣式，
    縮小到手機寬度能一次看到緣 9 組、份至少 5 組，不影響 iPad 原本大小 */
 @media(max-width:767px){
-  .yb-mat{min-width:0}
-  .yb-rel{font-size:11px}
-  .yb-mid{gap:3px}
-  .yb-mid .yb-rel{min-width:13px}
-  .yb-bkt{font-size:15px}
-  .yb-inner{grid-template-columns:repeat(2,10px);gap:1px 3px;font-size:9px;padding:1px 3px}
-  .yb-label,.yb-sub{font-size:8px}
-  .yuan-row{gap:3px}
-  .fen-seg{padding:0 2px}
-  .fen-slot{min-height:28px}
-  .fen-slot-top{margin-bottom:4px}
-  .fen-slot-bottom{margin-top:4px}
-  .fen-date,.fen-flow{font-size:7px}
-  .fen-name{font-size:7px}
+  .relnum-matrix{min-width:0}
+  .relnum{font-size:11px}
+  .relnum-mid{gap:3px}
+  .relnum-mid .relnum{min-width:13px}
+  .relnum-bkt{font-size:15px}
+  .relnum-inner{grid-template-columns:repeat(2,10px);gap:1px 3px;font-size:9px;padding:1px 3px}
+  .relnum-label,.relnum-sub{font-size:8px}
+  .bond-row{gap:3px}
+  .rhythm-seg{padding:0 2px}
+  .rhythm-slot{min-height:28px}
+  .rhythm-slot-top{margin-bottom:4px}
+  .rhythm-slot-bottom{margin-top:4px}
+  .rhythm-date,.rhythm-flow{font-size:7px}
+  .rhythm-name{font-size:7px}
   /* 份的矩陣比緣多一層日期/姓名/流年標籤，六欄需要比緣的九宮格更緊縮；
-     以下只作用在 .fen-seg 內，不影響緣（yuan-row）已實測確認的尺寸 */
-  .fen-seg .yb-rel{font-size:9px}
-  .fen-seg .yb-mid{gap:2px}
-  .fen-seg .yb-mid .yb-rel{min-width:9px}
-  .fen-seg .yb-bkt{font-size:13px}
-  .fen-seg .yb-inner{grid-template-columns:repeat(2,8px);gap:1px 2px;font-size:8px;padding:1px 2px}
-  .fen-seg .yb-label,.fen-seg .yb-sub{font-size:7px}
+     以下只作用在 .rhythm-seg 內，不影響緣（bond-row）已實測確認的尺寸 */
+  .rhythm-seg .relnum{font-size:9px}
+  .rhythm-seg .relnum-mid{gap:2px}
+  .rhythm-seg .relnum-mid .relnum{min-width:9px}
+  .rhythm-seg .relnum-bkt{font-size:13px}
+  .rhythm-seg .relnum-inner{grid-template-columns:repeat(2,8px);gap:1px 2px;font-size:8px;padding:1px 2px}
+  .rhythm-seg .relnum-label,.rhythm-seg .relnum-sub{font-size:7px}
 }
 
 /* 寬螢幕（平板／桌機）專用：合盤面板拉寬，矩陣與文字同步放大，
@@ -285,31 +282,31 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .pair-persons .cal-sign{font-size:10px}
   .pair-sec-title{font-size:16px}
   .pair-sec-sub{font-size:11px}
-  .yb-mat{min-width:80px}
-  .yb-rel{font-size:16px}
-  .yb-mid{gap:6px}
-  .yb-mid .yb-rel{min-width:22px}
-  .yb-bkt{font-size:22px}
-  .yb-inner{grid-template-columns:repeat(2,15px);gap:1px 7px;font-size:13px;padding:3px 6px}
-  .yb-label,.yb-sub{font-size:11px}
-  .yuan-row{gap:10px}
-  .fen-strip{padding:10px 4px 14px}
-  .fen-seg{padding:0 4px}
-  .fen-slot{min-height:42px}
-  .fen-date{font-size:11px}
-  .fen-name{font-size:10px}
-  .fen-flow{font-size:10px}
-  .fen-nav-btn{font-size:12px;padding:5px 12px}
-  .fen-nav-range{font-size:12px}
+  .relnum-matrix{min-width:80px}
+  .relnum{font-size:16px}
+  .relnum-mid{gap:6px}
+  .relnum-mid .relnum{min-width:22px}
+  .relnum-bkt{font-size:22px}
+  .relnum-inner{grid-template-columns:repeat(2,15px);gap:1px 7px;font-size:13px;padding:3px 6px}
+  .relnum-label,.relnum-sub{font-size:11px}
+  .bond-row{gap:10px}
+  .rhythm-strip{padding:10px 4px 14px}
+  .rhythm-seg{padding:0 4px}
+  .rhythm-slot{min-height:42px}
+  .rhythm-date{font-size:11px}
+  .rhythm-name{font-size:10px}
+  .rhythm-flow{font-size:10px}
+  .rhythm-nav-btn{font-size:12px;padding:5px 12px}
+  .rhythm-nav-range{font-size:12px}
   /* 份是固定六欄 grid，不能像緣那樣橫向捲動；矩陣不能跟著緣一起放大到頂，
-     否則六欄裝不下會擠壓重疊，所以在此單獨縮小，只作用在 .fen-seg 內 */
-  .fen-seg .yb-mat{min-width:0}
-  .fen-seg .yb-rel{font-size:13px}
-  .fen-seg .yb-mid{gap:4px}
-  .fen-seg .yb-mid .yb-rel{min-width:14px}
-  .fen-seg .yb-bkt{font-size:16px}
-  .fen-seg .yb-inner{grid-template-columns:repeat(2,10px);gap:1px 4px;font-size:10px;padding:2px 4px}
-  .fen-seg .yb-label,.fen-seg .yb-sub{font-size:9px}
+     否則六欄裝不下會擠壓重疊，所以在此單獨縮小，只作用在 .rhythm-seg 內 */
+  .rhythm-seg .relnum-matrix{min-width:0}
+  .rhythm-seg .relnum{font-size:13px}
+  .rhythm-seg .relnum-mid{gap:4px}
+  .rhythm-seg .relnum-mid .relnum{min-width:14px}
+  .rhythm-seg .relnum-bkt{font-size:16px}
+  .rhythm-seg .relnum-inner{grid-template-columns:repeat(2,10px);gap:1px 4px;font-size:10px;padding:2px 4px}
+  .rhythm-seg .relnum-label,.rhythm-seg .relnum-sub{font-size:9px}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -456,9 +453,9 @@ const T={
     recDeleteConfirm:'確定刪除？', recDeleteYes:'刪除', recDeleteNo:'取消',
     recExpand:'▼', recCollapse:'▲',
     pairBtn:'合盤', pairSelHint:'勾選兩筆紀錄進行合盤', pairMax:'最多勾選兩位',
-    pairPanelTitle:'關係的緣與份', pairYuanTitle:'緣', pairYuanSub:'九階段關係矩陣',
-    pairFenTitle:'份', pairFenSub:'關係流年表',
-    fenPrev:'‹ 前3年', fenNext:'後3年 ›',
+    pairPanelTitle:'關係的緣與份', pairBondTitle:'緣', pairBondSub:'九階段關係矩陣',
+    pairRhythmTitle:'份', pairRhythmSub:'關係流年表',
+    rhythmPrev:'‹ 前3年', rhythmNext:'後3年 ›',
     pairShot:'合盤'
   },
   en:{
@@ -488,9 +485,9 @@ const T={
     recDeleteConfirm:'Delete this record?', recDeleteYes:'Delete', recDeleteNo:'Cancel',
     recExpand:'▼', recCollapse:'▲',
     pairBtn:'Synastry', pairSelHint:'Check two records to compare', pairMax:'Select at most two',
-    pairPanelTitle:'Bond & Rhythm', pairYuanTitle:'Bond', pairYuanSub:'Nine-Stage Relationship Matrix',
-    pairFenTitle:'Rhythm', pairFenSub:'Relationship Timeline',
-    fenPrev:'‹ 3 Yrs Back', fenNext:'3 Yrs Fwd ›',
+    pairPanelTitle:'Bond & Rhythm', pairBondTitle:'Bond', pairBondSub:'Nine-Stage Relationship Matrix',
+    pairRhythmTitle:'Rhythm', pairRhythmSub:'Relationship Transit Timeline',
+    rhythmPrev:'‹ 3 Yrs Back', rhythmNext:'3 Yrs Fwd ›',
     pairShot:'Synastry'
   }
 };
@@ -648,14 +645,6 @@ function calcLevel(innate,destiny,pathNums){
   else level=7;
   return{level};
 }
-function calcFlow(y,m,d,targetY,targetM,targetD){
-  const yD=digs(y),mD=digs(m),dD=digs(d);
-  const fy=makeStage(sumArr([...digs(targetY),...mD,...dD]));
-  const fm=makeStage(sumArr([...yD,...digs(targetM),...dD]));
-  const fd=makeStage(sumArr([...yD,...mD,...digs(targetD)]));
-  return{fy,fm,fd};
-}
-
 // ── Guardian Logic ────────────────────────────────────────────
 // 判斷一個 stage 是否符合指導靈辨識條件
 function isG4(stage){ // 29/11/2 or 11/2 (尾數2，前一層含11)
@@ -729,13 +718,6 @@ function inRanges(age,ranges){
 // ── Render ────────────────────────────────────────────────────
 function p2(n){return n<10?'0'+n:String(n);}
 
-function stageLabel(name){
-  const zhNames=['幼年','少年','青年','中年','老年'];
-  const idx=zhNames.indexOf(name);
-  if(idx===-1) return name;
-  return T[lang].stages[idx];
-}
-
 function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true,isLeapMonth=false){
   const title='<span class="cal-label">'+(isGreg?t('greg'):t('lun'))+'</span><span class="cal-sign">'+(isGreg?'(+)':'(-)')+'</span>';
   const{stages}=calcStages(y,m,d,h,mn);
@@ -770,29 +752,10 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true,isLea
   <div class="num-row" style="${colStyle}">${stageCells}</div>`;
 }
 
-function renderInnate(el,innate,isGreg){
-  const label=isGreg?`${t('greg')}(+)`:`${t('lun')}(-)`;
-  const counts={};
-  for(const n of innate){if(n>0)counts[n]=(counts[n]||0)+1;}
-  const sorted=[...innate].sort((a,b)=>a-b);
-  const nums=sorted.map(n=>{
-    const c=counts[n]||0;
-    const cls=n===0?'inn':(c>=3?'inn obs':(c>=1?'inn has':'inn'));
-    return`<span class="${cls}">${n}</span>`;
-  }).join('');
-  el.innerHTML=`<span class="innate-label">${label}</span><div class="innate-nums">${nums}</div>`;
-}
-
 function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums,gDestinyStr,lDestinyStr,elId){
   elId=elId||'nineGridSection';
   gPathNums=gPathNums||[];lPathNums=lPathNums||[];
   gDestNums=gDestNums||[];lDestNums=lDestNums||[];
-  function countNums(innate,destinyNums){
-    const c={};
-    for(const n of innate) c[n]=(c[n]||0)+1;
-    for(const n of destinyNums) c[n]=(c[n]||0)+1;
-    return c;
-  }
   function makeCell(num,innate,pathNums,destNums){
     const total=innate.filter(n=>n===num).length+pathNums.filter(n=>n===num).length+destNums.filter(n=>n===num).length;
     const dCnt=destNums.filter(n=>n===num).length;
@@ -831,13 +794,6 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
       const cls=n===0?'inn':(c>=3?'inn obs':(c>=1?'inn has':'inn'));
       return`<span class="${cls}">${n}</span>`;
     }).join('');
-  }
-  function makeDestinyHtml(str){
-    const parts=str.split('/');
-    return parts.map((p,i)=>i===parts.length-1
-      ?`<span class="stage-dest">${p}</span>`
-      :`<span class="stage-path">${p}/</span>`
-    ).join('');
   }
   const el=document.getElementById(elId);
   if(!el) return;
@@ -1007,9 +963,9 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
   const startOffset=(firstDay+6)%7;
   const daysInMonth=new Date(calYear,calMonth,0).getDate();
   const monthNames=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-  const prevMonthLabel=lang==='en'?'← Prev':'← 上月';
-  const nextMonthLabel=lang==='en'?'Next →':'下月 →';
-  const monthNavHtml=`<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px">
+  const prevMonthLabel=lang==='en'?'‹ Prev':'‹ 上月';
+  const nextMonthLabel=lang==='en'?'Next ›':'下月 ›';
+  const monthNavHtml=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
     <button onclick="if(_flowDayNavMonth===1){_flowDayNavMonth=12;_flowDayNavYear--;}else{_flowDayNavMonth--;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${prevMonthLabel}</button>
     <span style="font-size:13px;font-weight:600">${calYear}/${String(calMonth).padStart(2,'0')}</span>
     <button onclick="if(_flowDayNavMonth===12){_flowDayNavMonth=1;_flowDayNavYear++;}else{_flowDayNavMonth++;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${nextMonthLabel}</button>
@@ -1390,10 +1346,6 @@ function switchTab(idx){
     `<span style="font-size:13px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
 })();
 
-function tryAutoCalculate(){
-  renderPartial();
-}
-
 // 五欄位輸入事件
 const _inputIds=['inputYear','inputMonth','inputDay','inputHour','inputMin'];
 _inputIds.forEach(function(id){
@@ -1663,7 +1615,7 @@ function escapeHtmlRec(s){
 // ── 合盤（緣・份） ─────────────────────────────────────────────
 let _pairSel=[];
 let _pairLastIds=null;
-let _fenStartYear=null; // 份的翻頁起始年份；null＝尚未設定，開盤時預設回今年區間
+let _rhythmStartYear=null; // 份的翻頁起始年份；null＝尚未設定，開盤時預設回今年區間
 
 function togglePairSel(id,cb){
   if(cb.checked){
@@ -1708,34 +1660,34 @@ function pairStageMap(bp,h,mn){
 }
 
 // 關係數收斂：≤12 直接顯示，>12 收斂一次到個位數
-function ybCol(v){return v>12?sumArr(digs(v)):v;}
+function relNum(v){return v>12?sumArr(digs(v)):v;}
 
 // 方括號矩陣：a=左+ b=右+ c=左− d=右−
-function ybMatrix(a,b,c,d,label,sub){
-  const meta=(label?`<div class="yb-label">${label}</div>`:'')+(sub?`<div class="yb-sub">${sub}</div>`:'');
-  return `<div class="yb-mat"><div class="yb-rel">${ybCol(a+b)}</div>`+
-  `<div class="yb-mid"><span class="yb-rel">${ybCol(a+d)}</span><span class="yb-bracket"><span class="yb-bkt">[</span><span class="yb-inner"><span>${a}</span><span>${b}</span><span>${c}</span><span>${d}</span></span><span class="yb-bkt">]</span></span><span class="yb-rel">${ybCol(c+b)}</span></div>`+
-  `<div class="yb-rel">${ybCol(c+d)}</div>`+meta+`</div>`;
+function relNumMatrix(a,b,c,d,label,sub){
+  const meta=(label?`<div class="relnum-label">${label}</div>`:'')+(sub?`<div class="relnum-sub">${sub}</div>`:'');
+  return `<div class="relnum-matrix"><div class="relnum">${relNum(a+b)}</div>`+
+  `<div class="relnum-mid"><span class="relnum">${relNum(a+d)}</span><span class="relnum-bracket"><span class="relnum-bkt">[</span><span class="relnum-inner"><span>${a}</span><span>${b}</span><span>${c}</span><span>${d}</span></span><span class="relnum-bkt">]</span></span><span class="relnum">${relNum(c+b)}</span></div>`+
+  `<div class="relnum">${relNum(c+d)}</div>`+meta+`</div>`;
 }
-function ybBlank(){
-  return `<div class="yb-mat yb-blank"><div class="yb-rel">0</div><div class="yb-mid"><span class="yb-rel">0</span><span class="yb-bracket"><span class="yb-bkt">[</span><span class="yb-inner"><span>0</span><span>0</span><span>0</span><span>0</span></span><span class="yb-bkt">]</span></span><span class="yb-rel">0</span></div><div class="yb-rel">0</div></div>`;
+function relNumBlank(){
+  return `<div class="relnum-matrix relnum-blank"><div class="relnum">0</div><div class="relnum-mid"><span class="relnum">0</span><span class="relnum-bracket"><span class="relnum-bkt">[</span><span class="relnum-inner"><span>0</span><span>0</span><span>0</span><span>0</span></span><span class="relnum-bkt">]</span></span><span class="relnum">0</span></div><div class="relnum">0</div></div>`;
 }
 
 // 緣：九組矩陣（上五下四，編號＝解讀順位 97135／8624）
-const YUAN_ROW1=[['老年','老年',9],['中年','中年',7],['青年','青年',1],['少年','少年',3],['幼年','幼年',5]];
-const YUAN_ROW2=[['老年','中年',8],['中年','青年',6],['青年','少年',2],['少年','幼年',4]];
-function renderYuanSet(mapL,mapR){
-  const mk=pairs=>'<div class="yuan-row">'+pairs.map(([a,b,ord])=>{
+const BOND_ROW1=[['老年','老年',9],['中年','中年',7],['青年','青年',1],['少年','少年',3],['幼年','幼年',5]];
+const BOND_ROW2=[['老年','中年',8],['中年','青年',6],['青年','少年',2],['少年','幼年',4]];
+function renderBondSet(mapL,mapR){
+  const mk=pairs=>'<div class="bond-row">'+pairs.map(([a,b,ord])=>{
     const L=mapL[a],R=mapR[b];
-    if(!L||!R) return ybBlank();
-    return ybMatrix(L.g,R.g,L.l,R.l,'',ord);
+    if(!L||!R) return relNumBlank();
+    return relNumMatrix(L.g,R.g,L.l,R.l,'',ord);
   }).join('')+'</div>';
-  return mk(YUAN_ROW1)+mk(YUAN_ROW2);
+  return mk(BOND_ROW1)+mk(BOND_ROW2);
 }
 
 // 份：以兩人國曆生日為節點，從 startYear 起算固定三年（六段）；
 // 節點年份範圍多抓一年只為取得封口生日，不影響段數固定為 6
-function fenSegments(bpL,bpR,startYear){
+function rhythmSegments(bpL,bpR,startYear){
   const nodes=[];
   for(let y=startYear;y<=startYear+3;y++){
     nodes.push({y,m:bpL.gm,d:bpL.gd,who:'L'});
@@ -1754,39 +1706,39 @@ function fenSegments(bpL,bpR,startYear){
 }
 // 節點當下的國曆／農曆流年：切換點統一以國曆生日為準，
 // 國曆農曆共用同一個年份數字 FY，不再借用 calcFlowData 的農曆真實換算邏輯
-function fenFlowAt(bp,y,m,d){
+function rhythmFlowAt(bp,y,m,d){
   const gBdPassed=(m>bp.gm)||(m===bp.gm&&d>=bp.gd);
   const FY=gBdPassed?y:y-1;
   const gF=makeStage(sumArr([...digs(FY),...digs(bp.gm),...digs(bp.gd)]));
   const lF=makeStage(sumArr([...digs(FY),...digs(bp.lm),...digs(bp.ld)]));
   return{gF,lF};
 }
-function renderFenSet(bpL,bpR,nameL,nameR,startYear){
-  const segs=fenSegments(bpL,bpR,startYear);
+function renderRhythmSet(bpL,bpR,nameL,nameR,startYear){
+  const segs=rhythmSegments(bpL,bpR,startYear);
   if(!segs.length) return '';
   // 起點（去年較早生日者）固定在上，另一人固定在下；若首節點恰好同日，預設左側（年長者）在上
   const topWho=segs[0].start.who==='R'?'R':'L';
   // position: 'top'＝日期在外、流年貼近矩陣；'bottom'＝流年貼近矩陣、日期在外（上下鏡射）
-  function fenLabel(dateStr,name,gStr,lStr,position){
-    const dateDiv=`<div class="fen-date">${dateStr}</div>`;
-    const nameDiv=`<div class="fen-name">${escapeHtmlRec(name)}</div>`;
-    const flowDiv=`<div class="fen-flow">+${gStr} −${lStr}</div>`;
+  function rhythmLabel(dateStr,name,gStr,lStr,position){
+    const dateDiv=`<div class="rhythm-date">${dateStr}</div>`;
+    const nameDiv=`<div class="rhythm-name">${escapeHtmlRec(name)}</div>`;
+    const flowDiv=`<div class="rhythm-flow">+${gStr} −${lStr}</div>`;
     return position==='top'?(dateDiv+nameDiv+flowDiv):(flowDiv+nameDiv+dateDiv);
   }
-  return '<div class="fen-strip">'+segs.map(s=>{
-    const fL=fenFlowAt(bpL,s.start.y,s.start.m,s.start.d);
-    const fR=fenFlowAt(bpR,s.start.y,s.start.m,s.start.d);
+  return '<div class="rhythm-strip">'+segs.map(s=>{
+    const fL=rhythmFlowAt(bpL,s.start.y,s.start.m,s.start.d);
+    const fR=rhythmFlowAt(bpR,s.start.y,s.start.m,s.start.d);
     const dateStr=`${s.start.y}/${p2(s.start.m)}/${p2(s.start.d)}`;
     const who=s.start.who;
     const showL=(who==='L'||who==='LR'), showR=(who==='R'||who==='LR');
-    const lLabel=pos=>fenLabel(dateStr,nameL,fL.gF.str,fL.lF.str,pos);
-    const rLabel=pos=>fenLabel(dateStr,nameR,fR.gF.str,fR.lF.str,pos);
+    const lLabel=pos=>rhythmLabel(dateStr,nameL,fL.gF.str,fL.lF.str,pos);
+    const rLabel=pos=>rhythmLabel(dateStr,nameR,fR.gF.str,fR.lF.str,pos);
     const topLabel=topWho==='L'?(showL?lLabel('top'):''):(showR?rLabel('top'):'');
     const bottomLabel=topWho==='L'?(showR?rLabel('bottom'):''):(showL?lLabel('bottom'):'');
-    return `<div class="fen-seg">
-      <div class="fen-slot fen-slot-top">${topLabel}</div>
-      ${ybMatrix(fL.gF.destiny,fR.gF.destiny,fL.lF.destiny,fR.lF.destiny,'','')}
-      <div class="fen-slot fen-slot-bottom">${bottomLabel}</div>
+    return `<div class="rhythm-seg">
+      <div class="rhythm-slot rhythm-slot-top">${topLabel}</div>
+      ${relNumMatrix(fL.gF.destiny,fR.gF.destiny,fL.lF.destiny,fR.lF.destiny,'','')}
+      <div class="rhythm-slot rhythm-slot-bottom">${bottomLabel}</div>
     </div>`;
   }).join('')+'</div>';
 }
@@ -1837,11 +1789,9 @@ function openPairPanel(){
   if(sel.length!==2) return;
   sel.sort((a,b)=>(a.year-b.year)||(a.month-b.month)||(a.day-b.day)); // 年長者在左
   _pairLastIds=[sel[0].id,sel[1].id];
-  _fenStartYear=null; // 每次重新開啟合盤面板，份的年份區間重置回今年
+  _rhythmStartYear=null; // 每次重新開啟合盤面板，份的年份區間重置回今年
   renderPairPanel(sel[0],sel[1]);
   document.getElementById('pairOverlay').classList.add('open');
-  _pairSel=[]; // 成功開出合盤後清空勾選，避免下次打開紀錄面板時舊選項還留著
-  renderRecordList();
 }
 function closePairPanel(){
   document.getElementById('pairOverlay').classList.remove('open');
@@ -1855,25 +1805,25 @@ function renderPairPanel(L,R){
   }
   const head=`<div class="pair-persons"><div class="pp-col">${pairPersonLine(L,bpsL)}</div><div class="pp-col">${pairPersonLine(R,bpsR)}</div></div>`;
   const multi=(bpsL.length*bpsR.length)>1;
-  if(_fenStartYear===null) _fenStartYear=new Date().getFullYear()-1;
-  const startYear=_fenStartYear;
-  let yuanHtml='',fenHtml='';
+  if(_rhythmStartYear===null) _rhythmStartYear=new Date().getFullYear()-1;
+  const startYear=_rhythmStartYear;
+  let bondHtml='',rhythmHtml='';
   bpsL.forEach(bl=>{bpsR.forEach(br=>{
     const label=multi?`<div class="pair-set-label">${escapeHtmlRec(L.name)}${bl.sup} × ${escapeHtmlRec(R.name)}${br.sup}</div>`:'';
-    yuanHtml+=label+renderYuanSet(pairStageMap(bl,L.hour,L.minute),pairStageMap(br,R.hour,R.minute));
-    fenHtml+=label+renderFenSet(bl,br,L.name,R.name,startYear);
+    bondHtml+=label+renderBondSet(pairStageMap(bl,L.hour,L.minute),pairStageMap(br,R.hour,R.minute));
+    rhythmHtml+=label+renderRhythmSet(bl,br,L.name,R.name,startYear);
   });});
-  const fenNav=`<div class="fen-nav">
-    <button type="button" class="fen-nav-btn" onclick="changeFenPage(-1)">${t('fenPrev')}</button>
-    <div class="fen-nav-range">${startYear} – ${startYear+2}</div>
-    <button type="button" class="fen-nav-btn" onclick="changeFenPage(1)">${t('fenNext')}</button>
+  const rhythmNav=`<div class="rhythm-nav">
+    <button type="button" class="rhythm-nav-btn" onclick="changeRhythmPage(-1)">${t('rhythmPrev')}</button>
+    <div class="rhythm-nav-range">${startYear} – ${startYear+2}</div>
+    <button type="button" class="rhythm-nav-btn" onclick="changeRhythmPage(1)">${t('rhythmNext')}</button>
   </div>`;
   document.getElementById('pairCapture').innerHTML=head
-    +`<div class="pair-sec-title">${t('pairYuanTitle')}</div><div class="pair-sec-sub">${t('pairYuanSub')}</div>`+yuanHtml
-    +`<div class="pair-sec-title">${t('pairFenTitle')}</div><div class="pair-sec-sub">${t('pairFenSub')}</div>`+fenNav+fenHtml;
+    +`<div class="pair-sec-title">${t('pairBondTitle')}</div><div class="pair-sec-sub">${t('pairBondSub')}</div>`+bondHtml
+    +`<div class="pair-sec-title">${t('pairRhythmTitle')}</div><div class="pair-sec-sub">${t('pairRhythmSub')}</div>`+rhythmNav+rhythmHtml;
 }
-function changeFenPage(dir){
-  _fenStartYear+=dir*3;
+function changeRhythmPage(dir){
+  _rhythmStartYear+=dir*3;
   const list=getRecords();
   const sel=(_pairLastIds||[]).map(id=>list.find(r=>r.id===id)).filter(Boolean);
   if(sel.length!==2) return;
