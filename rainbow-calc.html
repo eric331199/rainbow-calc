@@ -17,7 +17,7 @@
 body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif;min-height:100vh;padding:0 0 60px}
 .page{max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
 .header{padding:32px 24px 20px;text-align:center;position:relative}
-.lang-btn{position:absolute;top:32px;right:20px;font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;min-width:44px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
+.lang-btn{position:absolute;top:32px;right:20px;font-size:12px;color:#999;border:1px solid #ddd;border-radius:14px;padding:4px 14px;min-width:44px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
 .lang-btn:hover{color:#555;border-color:#bbb}
 .input-area{padding:0 20px 20px}
 .input-note{font-size:13px;color:#777;margin-bottom:16px;line-height:1.6;text-align:center}
@@ -127,7 +127,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .legend-item{display:flex;align-items:center;gap:4px}
 .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 /* 隱藏生日按鈕 */
-.bd-toggle-btn{padding:2px 10px;border-radius:12px;border:1px solid #bbb;background:#fff;font-size:11px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
+.bd-toggle-btn{padding:4px 14px;border-radius:14px;border:1px solid #bbb;background:#fff;font-size:12px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
 .bd2-hint-row{text-align:right;margin:-2px 0 12px;padding:0 2px}
 .bd2-hint-btn{border:none;background:none;color:#bbb;font-size:11px;letter-spacing:.02em;cursor:pointer;padding:2px;font-family:'M PLUS Rounded 1c',sans-serif}
 .bd2-row{margin-bottom:0}
@@ -154,7 +154,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .pair-panel-titleblock{grid-column:2;display:flex;flex-direction:column;align-items:center}
 .pair-panel-titleblock #pairPanelTitle{font-size:11px;font-weight:400;letter-spacing:.1em;color:#1a1a1a;margin-top:3px}
 .records-panel-close{grid-column:3;justify-self:end;border:none;background:none;font-size:20px;color:#999;cursor:pointer;padding:0 4px}
-.records-panel-lang{grid-column:1;justify-self:start;font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
+.records-panel-lang{grid-column:1;justify-self:start;font-size:12px;color:#999;border:1px solid #ddd;border-radius:14px;padding:4px 14px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
 .records-panel-lang:hover{color:#555;border-color:#bbb}
 .records-panel-body{flex:1;overflow-y:auto;padding:14px 16px 24px}
 .rec-section-title{font-size:11px;color:#999;letter-spacing:.1em;margin:14px 0 6px;text-align:center}
@@ -368,7 +368,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       </div>
     </div>
     <div class="bd2-hint-row">
-      <button type="button" id="btnBd2Toggle" class="bd2-hint-btn" onclick="toggleBd2()">如果你除了閏月還有第二組生日，按這裡→ +</button>
+      <span id="bd2HintPrefix" style="color:#bbb;font-size:11px;letter-spacing:.02em">如果你除了閏月還有第二組生日，</span><button type="button" id="btnBd2Toggle" class="bd2-hint-btn" onclick="toggleBd2()">按這裡→ +</button>
     </div>
     <div class="input-row bd2-row hidden" id="bd2Row" style="gap:6px">
       <div class="input-group" style="flex:1">
@@ -408,7 +408,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <div class="cal-section hidden" id="gregSection3" style="margin-top:0"></div>
         <div class="cal-section hidden" id="lunSection3"></div>
         </div>
-        <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
+        <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:4px 14px;border:1px solid #ddd;border-radius:14px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
           <div class="innate-title" id="innateTitle" style="display:grid;grid-template-columns:auto 1fr auto;align-items:center"><button disabled style="-webkit-appearance:none;appearance:none;background:none;border:none;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap;visibility:hidden">展開 ▼</button><span id="innateTitleText">先天數</span><button onclick="toggleNineGrid(this)" style="-webkit-appearance:none;appearance:none;background:none;border:none;cursor:pointer;color:#aaa;font-size:10px;font-family:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0 4px 0 8px;white-space:nowrap">收合 ▲</button></div>
           <div id="nineGridSection"></div>
@@ -430,7 +430,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     </div>
   </div>
   <div style="text-align:center;padding:12px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
-    <a href="https://paypal.me/eric12356/10USD" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
+    <a href="https://buy.stripe.com/7sY8wQe1NdhXbkV98G8Vi01" target="_blank" id="coffeeBtn" style="display:inline-block;padding:4px 14px;border:1px solid #ddd;border-radius:14px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
     <span style="display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0">© 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a></span><br>
@@ -448,7 +448,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       </div>
       <button class="rec-save-btn" id="recSaveBtn" onclick="saveRecord()">儲存這筆生日</button>
       <div class="rec-msg" id="recMsg"></div>
-      <div class="rec-section-title" id="recListTitle">已存紀錄</div>
+      <div class="rec-section-title-row" style="display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0 6px">
+        <button id="recImportBtn" onclick="document.getElementById('recImportFile').click()" style="padding:4px 14px;border:1px solid #ddd;border-radius:14px;font-size:12px;color:#888;background:#fff;cursor:pointer;font-family:inherit"><span id="recImportBtnText">匯入</span></button>
+        <div class="rec-section-title" id="recListTitle" style="margin:0">已存紀錄</div>
+        <button id="recExportBtn" onclick="exportRecords()" style="padding:4px 14px;border:1px solid #ddd;border-radius:14px;font-size:12px;color:#888;background:#fff;cursor:pointer;font-family:inherit"><span id="recExportBtnText">匯出</span></button>
+        <input type="file" id="recImportFile" accept="application/json,.json" style="display:none" onchange="importRecordsFile(event)">
+      </div>
       <div id="recList"></div>
     </div>
   </div>
@@ -472,14 +477,14 @@ const T={
     labelDate:'年', labelMonth:'月', labelDay:'日', labelHour:'時', labelMin:'分', labelTime:'時：分（選填）',
     tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²', tab5:'陽曆流年表³', tab6:'陰曆流年表³',
     leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組', bd2Divider:'— 第二組生日 —',
-    bd2HintOpen:'如果你除了閏月還有第二組生日，按這裡→ +', bd2HintClose:'收起第二組生日 －',
+    bd2HintPrefix:'如果你除了閏月還有第二組生日，', bd2HintOpen:'按這裡→ +', bd2HintClose:'收起 －',
     innateTitle:'先天數',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
     stages:['幼年','少年','青年','中年','老年'],
     flowYear:'流年', flowMonth:'流月', flowDay:'流日', flowPrev:'前一年', flowCurr:'目前流年', flowNext:'下一年', flowCurrSuffix:'',
     flowTableGreg:'陽曆 (+) 九年能量波動表', flowTableLun:'陰曆 (-) 九年能量波動表', flowTableSuffix:'九年能量波動表',
-    coffee:'☕ 請我喝杯咖啡', studio:'樹根樹洞',
+    coffee:'☕ 請我喝杯咖啡', coffeeUrl:'https://buy.stripe.com/7sY8wQe1NdhXbkV98G8Vi01', studio:'樹根樹洞',
     langBtn:'EN',
     g4:'四次元', g5:'五次元', g6:'六次元以上',
     hideBd:'隱藏生日', showBd:'顯示生日',
@@ -488,7 +493,8 @@ const T={
     recNameInputPh:'姓名或暱稱', recSaveBtn:'儲存這筆生日',
     recNeedDate:'請先輸入生日，再儲存', recSaved:'已儲存',
     recUnnamed:'未命名', recDestinyLabel:'青年（主命數）',
-    recListTitle:'已存紀錄', recEmpty:'尚無紀錄',
+    recListTitle:'已存紀錄', recEmpty:'尚無紀錄', recExportBtn:'匯出', recImportBtn:'匯入',
+    recImportSuccess:'已匯入 {n} 筆新紀錄', recImportNone:'沒有新紀錄可匯入（可能已經匯入過）', recImportError:'匯入失敗，檔案格式不正確',
     recLoadBtn:'載入', recDeleteBtn:'刪除',
     recDeleteConfirm:'確定刪除？', recDeleteYes:'刪除', recDeleteNo:'取消',
     recExpand:'▼', recCollapse:'▲',
@@ -505,14 +511,14 @@ const T={
     labelDate:'Year', labelMonth:'Month', labelDay:'Day', labelHour:'Hour', labelMin:'Minute', labelTime:'H：M (opt)',
     tab0:'Life\nStages', tab1:'Solar¹\nTransit', tab2:'Lunar¹\nTransit', tab1no:'Solar\nTransit', tab2no:'Lunar\nTransit', tab3:'Solar²\nTransit', tab4:'Lunar²\nTransit', tab5:'Solar³\nTransit', tab6:'Lunar³\nTransit',
     leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2', bd2Divider:'— Second Birthday —',
-    bd2HintOpen:'Have a second birthday besides a leap month one? Tap here → +', bd2HintClose:'Hide second birthday －',
+    bd2HintPrefix:'Have a second birthday besides a leap month one? ', bd2HintOpen:'Tap here → +', bd2HintClose:'Hide －',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
     flowYear:'Annual Transit', flowMonth:'Monthly Transit', flowDay:'Daily Transit', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:'',
     flowTableGreg:'Solar (+) 9-Year Energy Rhythm', flowTableLun:'Lunar (-) 9-Year Energy Rhythm', flowTableSuffix:'9-Year Energy Rhythm',
-    coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
+    coffee:'🧋 Buy Me a Bubble Tea', coffeeUrl:'https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00', studio:'The Roots Hollow',
     langBtn:'中文',
     g4:'4D', g5:'5D', g6:'6D+',
     hideBd:'Hide Birthday', showBd:'Show Birthday',
@@ -521,7 +527,8 @@ const T={
     recNameInputPh:'Name or nickname', recSaveBtn:'Save This Birthday',
     recNeedDate:'Please enter a birthday first', recSaved:'Saved',
     recUnnamed:'Unnamed', recDestinyLabel:'Youth (Core Number)',
-    recListTitle:'Saved Records', recEmpty:'No records yet',
+    recListTitle:'Saved Records', recEmpty:'No records yet', recExportBtn:'Export', recImportBtn:'Import',
+    recImportSuccess:'Imported {n} new record(s)', recImportNone:'No new records to import (may already be imported)', recImportError:'Import failed, invalid file format',
     recLoadBtn:'Load', recDeleteBtn:'Delete',
     recDeleteConfirm:'Delete this record?', recDeleteYes:'Delete', recDeleteNo:'Cancel',
     recExpand:'▼', recCollapse:'▲',
@@ -590,6 +597,7 @@ function applyLang(){
     nineGridToggleBtn.textContent=isCollapsed?(lang==='en'?'Expand ▼':'展開 ▼'):(lang==='en'?'Collapse ▲':'收合 ▲');
   }
   document.getElementById('coffeeBtn').textContent=t('coffee');
+  document.getElementById('coffeeBtn').href=t('coffeeUrl');
   document.getElementById('footerStudio').textContent=t('studio');
   document.getElementById('langBtn').textContent=t('langBtn');
   const pairLangBtn=document.getElementById('pairLangBtn');
@@ -616,12 +624,16 @@ function applyLang(){
   if(s3d) s3d.textContent=t('bd2Divider');
   const btnBd2=document.getElementById('btnBd2Toggle');
   if(btnBd2) btnBd2.textContent=_bd2Open?t('bd2HintClose'):t('bd2HintOpen');
+  const bd2Prefix=document.getElementById('bd2HintPrefix');
+  if(bd2Prefix) bd2Prefix.textContent=t('bd2HintPrefix');
   document.getElementById('recordsBtnText').textContent=t('recordsBtn');
   document.getElementById('recordsPanelTitle').textContent=t('recordsPanelTitle');
   document.getElementById('recCurrentTitle').textContent=t('recCurrentTitle');
   document.getElementById('recNameInput').placeholder=t('recNameInputPh');
   document.getElementById('recSaveBtn').textContent=t('recSaveBtn');
   document.getElementById('recListTitle').textContent=t('recListTitle');
+  document.getElementById('recExportBtnText').textContent=t('recExportBtn');
+  document.getElementById('recImportBtnText').textContent=t('recImportBtn');
   if(!document.getElementById('recordsOverlay').classList.contains('open')) return;
   renderRecCurrentDate();
   renderRecordList();
@@ -1611,6 +1623,54 @@ function saveRecordsList(list){
   localStorage.setItem(RECORDS_KEY,JSON.stringify(list));
 }
 
+function exportRecords(){
+  const list=getRecords();
+  const blob=new Blob([JSON.stringify(list,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  const today=new Date();
+  const ymd=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  link.download=`彩虹數字_紀錄_${ymd}.json`;
+  link.href=url;
+  link.click();
+  URL.revokeObjectURL(url);
+  if(typeof gtag==='function') gtag('event','records_exported');
+}
+
+function importRecordsFile(event){
+  const file=event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const imported=JSON.parse(e.target.result);
+      if(!Array.isArray(imported)) throw new Error('not array');
+      const existing=getRecords();
+      const existingIds=new Set(existing.map(r=>r.id));
+      let addedCount=0;
+      imported.forEach(r=>{
+        if(r&&typeof r==='object'&&r.year&&r.month&&r.day&&!existingIds.has(r.id)){
+          existing.push(r);
+          existingIds.add(r.id);
+          addedCount++;
+        }
+      });
+      saveRecordsList(existing);
+      renderRecordList();
+      if(addedCount>0){
+        setRecMsg(t('recImportSuccess').replace('{n}',addedCount),'ok');
+        if(typeof gtag==='function') gtag('event','records_imported');
+      } else {
+        setRecMsg(t('recImportNone'),'err');
+      }
+    }catch(err){
+      setRecMsg(t('recImportError'),'err');
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+
 function currentBirthdayParams(){
   const y=parseInt(document.getElementById('inputYear').value)||0;
   const m=parseInt(document.getElementById('inputMonth').value)||0;
@@ -1749,7 +1809,13 @@ function loadRecord(id){
 function askDeleteRecord(id){
   const el=document.getElementById('rec-confirm-'+id);
   if(!el) return;
-  el.innerHTML=`${t('recDeleteConfirm')} <button onclick="deleteRecord(${id})" style="color:#c0392b">${t('recDeleteYes')}</button> <button onclick="this.closest('.rec-item-confirm').innerHTML=''">${t('recDeleteNo')}</button>`;
+  el.innerHTML=`<div style="background:#fdf1ef;border-radius:10px;padding:10px 12px;text-align:center">
+    <div style="color:#c0392b;font-size:12px;margin-bottom:8px">${t('recDeleteConfirm')}</div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button onclick="deleteRecord(${id})" style="background:#c0392b;color:#fff;border:none;border-radius:14px;padding:4px 14px;font-size:12px;font-family:inherit;cursor:pointer">${t('recDeleteYes')}</button>
+      <button onclick="this.closest('.rec-item-confirm').innerHTML=''" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:14px;padding:4px 14px;font-size:12px;font-family:inherit;cursor:pointer">${t('recDeleteNo')}</button>
+    </div>
+  </div>`;
 }
 function deleteRecord(id){
   const list=getRecords().filter(x=>x.id!==id);
