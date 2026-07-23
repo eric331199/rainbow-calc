@@ -52,22 +52,21 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .stage-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .innate-section{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:32px;text-align:center}
 .innate-title{font-size:14px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:12px}
-.innate-label{font-size:13px;color:#999;flex-shrink:0;font-family:'MPLUS1Code',monospace}
 .innate-nums{display:flex;gap:0px}
 .inn{font-size:14px;color:#bbb;width:18px;text-align:center;font-family:'MPLUS1Code',monospace}
 .inn.has{color:#555}
 .inn.obs{color:#c0392b;font-weight:500}
-.wege-section{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
-#wegeTitleText{margin-bottom:0}
-.wege-wrap{display:flex;gap:12px;justify-content:center;margin-top:0}
-.wege-side{flex:1;min-width:0;max-width:190px}
-.wege-svg{width:100%;height:auto;display:block;overflow:visible}
-.wege-pos{font-size:13px;font-weight:700;fill:#999;font-family:'MPLUS1Code',monospace}
-.wege-pos.current{fill:#b8860b}
-.wege-flow{font-size:10px;font-weight:700;font-family:'MPLUS1Code',monospace}
-.wege-edge{stroke:#ddd;stroke-width:1.4;fill:none}
-.wege-dot{fill:#999}
-.wege-dot.current{fill:#b8860b}
+.phase-section{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
+#phaseTitleText{margin-bottom:0}
+.phase-wrap{display:flex;gap:12px;justify-content:center;margin-top:0}
+.phase-side{flex:1;min-width:0;max-width:190px}
+.phase-svg{width:100%;height:auto;display:block;overflow:visible}
+.phase-pos{font-size:13px;font-weight:700;fill:#999;font-family:'MPLUS1Code',monospace}
+.phase-pos.current{fill:#b8860b}
+.phase-flow{font-size:10px;font-weight:700;font-family:'MPLUS1Code',monospace}
+.phase-edge{stroke:#ddd;stroke-width:1.4;fill:none}
+.phase-dot{fill:#999}
+.phase-dot.current{fill:#b8860b}
 .flow-block{margin-top:16px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
 .flow-path,.flow-dest{font-size:13px;font-family:'MPLUS1Code',monospace}
 .flow-path{color:#999}
@@ -426,9 +425,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
           <div id="nineGridSection2" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
           <div id="nineGridSection3" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
         </div>
-        <div class="wege-section" id="wegeSection">
-          <div class="innate-title" id="wegeTitleText">位格</div>
-          <div id="wegeBlock"></div>
+        <div class="phase-section" id="phaseSection">
+          <div class="innate-title" id="phaseTitleText">位格</div>
+          <div id="phaseBlock"></div>
         </div>
         <div class="flow-block" id="flowBlock">
           <div id="flowYearBlock"></div>
@@ -494,7 +493,7 @@ const T={
     leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組', bd2Divider:'— 第二組生日 —',
     bd2HintPrefix:'如果你除了閏月還有第二組生日，', bd2HintOpen:'按這裡→ +', bd2HintClose:'收起 －',
     innateTitle:'先天數',
-    wegeTitle:'位格',
+    phaseTitle:'位格',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
     stages:['幼年','少年','青年','中年','老年'],
@@ -529,7 +528,7 @@ const T={
     leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2', bd2Divider:'— Second Birthday —',
     bd2HintPrefix:'Have a second birthday besides a leap month one? ', bd2HintOpen:'Tap here → +', bd2HintClose:'Hide －',
     innateTitle:'Innate Numbers',
-    wegeTitle:'Position',
+    phaseTitle:'Phase',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
@@ -607,8 +606,8 @@ function applyLang(){
   document.getElementById('tab1').textContent=isLeap?t('tab1'):t('tab1no');
   document.getElementById('tab2').textContent=isLeap?t('tab2'):t('tab2no');
   document.getElementById('innateTitleText').textContent=t('innateTitle');
-  const wegeTitleEl=document.getElementById('wegeTitleText');
-  if(wegeTitleEl) wegeTitleEl.textContent=t('wegeTitle');
+  const phaseTitleEl=document.getElementById('phaseTitleText');
+  if(phaseTitleEl) phaseTitleEl.textContent=t('phaseTitle');
   const nineGridToggleBtn=document.querySelector('#innateTitle button');
   if(nineGridToggleBtn){
     const wraps=document.querySelectorAll('.nine-grid-collapsible');
@@ -1005,7 +1004,7 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
 }
 
 // ── 位格三角形：9個固定位置（順時針，左下=1，頂點=4，右下=7），目前位格顯示完整流年字串 ──
-function _wegeTrianglePoints(){
+function _phaseTrianglePoints(){
   const BL={x:25,y:185}, BR={x:195,y:185};
   const side=BR.x-BL.x;
   const apex={x:(BL.x+BR.x)/2, y:BL.y-side*Math.sqrt(3)/2};
@@ -1017,7 +1016,7 @@ function _wegeTrianglePoints(){
     apex,BL,BR
   };
 }
-function _wegeFlowTspans(sign,str){
+function _phaseFlowTspans(sign,str){
   // 配色比照流年卡片：路徑段落用 #999，最後的位格數用 #1a1a1a（皆粗體，因為這裡只顯示目前流年）
   const parts=str.split('/');
   let out=`<tspan fill="#1a1a1a">${sign}</tspan>`;
@@ -1027,8 +1026,8 @@ function _wegeFlowTspans(sign,str){
   });
   return out;
 }
-function _wegeTriangleSVG(sign,currentK,currentStr){
-  const{pts,apex,BL,BR}=_wegeTrianglePoints();
+function _phaseTriangleSVG(sign,currentK,currentStr){
+  const{pts,apex,BL,BR}=_phaseTrianglePoints();
   const cx=(apex.x+BL.x+BR.x)/3, cy=(apex.y+BL.y+BR.y)/3;
   const margin=12,cornerMargin=margin/Math.sin(Math.PI/6);
   const vertexInset=v=>{const dx=v.x-cx,dy=v.y-cy,len=Math.hypot(dx,dy);return{x:v.x-dx/len*cornerMargin,y:v.y-dy/len*cornerMargin};};
@@ -1037,15 +1036,15 @@ function _wegeTriangleSVG(sign,currentK,currentStr){
   const innerPts=[BLIn, lerp(BLIn,apexIn,1/3), lerp(BLIn,apexIn,2/3), apexIn,
                   lerp(apexIn,BRIn,1/3), lerp(apexIn,BRIn,2/3), BRIn,
                   lerp(BRIn,BLIn,1/3), lerp(BRIn,BLIn,2/3)];
-  let svg=`<svg class="wege-svg" viewBox="0 9 220 199" xmlns="http://www.w3.org/2000/svg">`;
-  svg+=`<polygon class="wege-edge" points="${apex.x},${apex.y} ${BL.x},${BL.y} ${BR.x},${BR.y}"/>`;
+  let svg=`<svg class="phase-svg" viewBox="0 9 220 199" xmlns="http://www.w3.org/2000/svg">`;
+  svg+=`<polygon class="phase-edge" points="${apex.x},${apex.y} ${BL.x},${BL.y} ${BR.x},${BR.y}"/>`;
   pts.forEach((p,i)=>{
     const k=i+1;
     const isCurrent=(k===currentK);
     const innerX=innerPts[i].x, innerY=innerPts[i].y;
     const r=isCurrent?3.6:2;
-    svg+=`<circle class="wege-dot${isCurrent?' current':''}" cx="${p.x}" cy="${p.y}" r="${r}"${isCurrent?' stroke="#fff" stroke-width="0.8"':''}/>`;
-    svg+=`<text class="wege-pos${isCurrent?' current':''}" x="${innerX}" y="${innerY}" text-anchor="middle" dominant-baseline="middle">${k}</text>`;
+    svg+=`<circle class="phase-dot${isCurrent?' current':''}" cx="${p.x}" cy="${p.y}" r="${r}"${isCurrent?' stroke="#fff" stroke-width="0.8"':''}/>`;
+    svg+=`<text class="phase-pos${isCurrent?' current':''}" x="${innerX}" y="${innerY}" text-anchor="middle" dominant-baseline="middle">${k}</text>`;
     if(isCurrent){
       const dx=p.x-cx, dy=p.y-cy, len=Math.hypot(dx,dy)||1;
       const ux=dx/len, uy=dy/len;
@@ -1062,26 +1061,26 @@ function _wegeTriangleSVG(sign,currentK,currentStr){
         outerX=p.x+ux*gap+(ux>0?2:-2);
         outerY=p.y+uy*gap;
       }
-      svg+=`<text class="wege-flow" x="${outerX}" y="${outerY}" text-anchor="${anchor}" dominant-baseline="middle">${_wegeFlowTspans(sign,currentStr)}</text>`;
+      svg+=`<text class="phase-flow" x="${outerX}" y="${outerY}" text-anchor="${anchor}" dominant-baseline="middle">${_phaseFlowTspans(sign,currentStr)}</text>`;
     }
   });
   svg+=`</svg>`;
   return svg;
 }
-function renderWege(el,sets,todayY,todayM,todayD){
-  let html='<div class="wege-block-inner">';
+function renderPhase(el,sets,todayY,todayM,todayD){
+  let html='<div class="phase-block-inner">';
   sets.forEach((s,idx)=>{
     const{gFY,lFY}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
-    const gWege=((gFY-s.gregY+1)%9+9)%9||9;
-    const lWege=((lFY-s.lunY+1)%9+9)%9||9;
+    const gPhase=((gFY-s.gregY+1)%9+9)%9||9;
+    const lPhase=((lFY-s.lunY+1)%9+9)%9||9;
     const gStage=makeStage(sumArr([...digs(gFY),...digs(s.gregM),...digs(s.gregD)]));
     const lStage=makeStage(sumArr([...digs(lFY),...digs(s.lunM),...digs(s.lunD)]));
-    const wrap=`<div class="wege-wrap">
-      <div class="wege-side">
-        ${_wegeTriangleSVG('+',gWege,gStage.str)}
+    const wrap=`<div class="phase-wrap">
+      <div class="phase-side">
+        ${_phaseTriangleSVG('+',gPhase,gStage.str)}
       </div>
-      <div class="wege-side">
-        ${_wegeTriangleSVG('-',lWege,lStage.str)}
+      <div class="phase-side">
+        ${_phaseTriangleSVG('-',lPhase,lStage.str)}
       </div>
     </div>`;
     if(idx===0) html+=wrap;
@@ -1274,26 +1273,26 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
     </div></div>`;
   }).join('');
   const stagesRow=`<div class="num-row" style="grid-template-columns:repeat(${ftCols},1fr);margin-bottom:24px">${ftStageCells}</div>`;
-  const birthdayPassedForWege=isGreg
+  const birthdayPassedForPhase=isGreg
     ?(todayM>birthM)||(todayM===birthM&&todayD>=birthD)
     :(()=>{const lt=solarToLunar(todayY,todayM,todayD);const ltm=lt?lt.month:todayM;const ltd=lt?lt.day:todayD;return(ltm>birthM)||(ltm===birthM&&ltd>=birthD);})();
-  const wegeYear=birthdayPassedForWege?todayY:todayY-1;
-  const currentWege=((wegeYear-birthY+1)%9+9)%9||9;
-  const wegeNames=lang==='en'
+  const phaseYear=birthdayPassedForPhase?todayY:todayY-1;
+  const currentPhase=((phaseYear-birthY+1)%9+9)%9||9;
+  const phaseNames=lang==='en'
     ?['Set<br>Your<br>Goal','Plan<br>and<br>Try','Clear<br>the<br>Old','Root<br>the<br>Value','Stay<br>or<br>Pivot','Mend<br>and<br>Heal','Let<br>Karma<br>Reveal','Review<br>and<br>Settle','Rest<br>and<br>Still']
     :['立定目標','佈局試探','清理舊習','格局抉擇','尋適守成','和解療癒','驗收因果','結算檢討','休息沈澱'];
-  const wegeCells=Array.from({length:9},(_,i)=>{
-    const isActive=(i+1)===currentWege;
+  const phaseCells=Array.from({length:9},(_,i)=>{
+    const isActive=(i+1)===currentPhase;
     const bg=isActive?'background:#fdf0c8;':'background:#fff;';
     const color=isActive?'color:#b8860b;font-weight:600;':'color:#bbb;';
     const nameColor=isActive?'color:#b8860b;font-weight:500;':'color:#ccc;';
     return`<div class="fyt-col">
       <div class="fyt-cell age-row" style="${bg}"><div class="fyt-age" style="${color}">${lang==='en'?`Phase ${i+1}`:`位格${i+1}`}</div></div>
-      <div class="fyt-cell num-row" style="border-bottom:none;${bg}"><div class="fyt-age" style="${nameColor}white-space:normal;word-break:break-word;line-height:1.3;text-align:center;padding:2px 1px">${wegeNames[i]}</div></div>
+      <div class="fyt-cell num-row" style="border-bottom:none;${bg}"><div class="fyt-age" style="${nameColor}white-space:normal;word-break:break-word;line-height:1.3;text-align:center;padding:2px 1px">${phaseNames[i]}</div></div>
     </div>`;
   }).join('');
-  const wegeHeader=`<div class="fyt-group"><div class="fyt-grid">${wegeCells}</div></div>`;
-  let html=`<div class="flow-year-table">${titleWithDate}${bdHeader}${stagesRow}<div class="flow-year-title">${t('flowTableSuffix')}</div>${legend}${wegeHeader}`;
+  const phaseHeader=`<div class="fyt-group"><div class="fyt-grid">${phaseCells}</div></div>`;
+  let html=`<div class="flow-year-table">${titleWithDate}${bdHeader}${stagesRow}<div class="flow-year-title">${t('flowTableSuffix')}</div>${legend}${phaseHeader}`;
   for(const group of groups){
     while(group.length<9) group.push(null);
     const colCells=group.map(r=>{
@@ -1521,8 +1520,8 @@ function renderPartial(){_resetFlowNav();
     const lDestinyStr=makeStage(lDestinyTotal).str;
     renderNineGrids(gInnate,lInnate,gBreak.pathNums,lBreak.pathNums,gBreak.destinyNums,lBreak.destinyNums,gDestinyStr,lDestinyStr);
     document.getElementById('innateTitleText').textContent=t('innateTitle');
-    const wegeTitleEl2=document.getElementById('wegeTitleText');
-    if(wegeTitleEl2) wegeTitleEl2.textContent=t('wegeTitle');
+    const phaseTitleEl2=document.getElementById('phaseTitleText');
+    if(phaseTitleEl2) phaseTitleEl2.textContent=t('phaseTitle');
     const now=new Date();
     // 流年流月流日
     const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
@@ -1588,7 +1587,7 @@ function renderPartial(){_resetFlowNav();
       document.getElementById('tab1').textContent=t('tab1no');
       document.getElementById('tab2').textContent=t('tab2no');
     }
-    renderWege(document.getElementById('wegeBlock'),flowSetsAll,nowY,nowM,nowD);
+    renderPhase(document.getElementById('phaseBlock'),flowSetsAll,nowY,nowM,nowD);
     renderFlowYear(document.getElementById('flowYearBlock'),flowSetsAll,nowY,nowM,nowD);
     _initFlowNav(flowSetsAll,nowY,nowM);
     renderFlowMonth(document.getElementById('flowMonthBlock'),flowSetsAll,nowY,nowM,nowD);
