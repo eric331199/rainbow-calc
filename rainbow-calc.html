@@ -57,7 +57,18 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .inn{font-size:14px;color:#bbb;width:18px;text-align:center;font-family:'MPLUS1Code',monospace}
 .inn.has{color:#555}
 .inn.obs{color:#c0392b;font-weight:500}
-.flow-block{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:32px;text-align:center}
+.wege-section{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
+#wegeTitleText{margin-bottom:0}
+.wege-wrap{display:flex;gap:12px;justify-content:center;margin-top:0}
+.wege-side{flex:1;min-width:0;max-width:190px}
+.wege-svg{width:100%;height:auto;display:block;overflow:visible}
+.wege-pos{font-size:13px;font-weight:700;fill:#999;font-family:'MPLUS1Code',monospace}
+.wege-pos.current{fill:#b8860b}
+.wege-flow{font-size:10px;font-weight:700;font-family:'MPLUS1Code',monospace}
+.wege-edge{stroke:#ddd;stroke-width:1.4;fill:none}
+.wege-dot{fill:#999}
+.wege-dot.current{fill:#b8860b}
+.flow-block{margin-top:16px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
 .flow-path,.flow-dest{font-size:13px;font-family:'MPLUS1Code',monospace}
 .flow-path{color:#999}
 .flow-dest{color:#1a1a1a}
@@ -96,7 +107,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-year-title{font-size:14px;font-weight:500;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%;position:relative}
-.fyt-grid::before,.fyt-grid::after{content:'';position:absolute;top:0;bottom:0;width:1px;background:#333;z-index:5;pointer-events:none}
+.fyt-grid::before,.fyt-grid::after{content:'';position:absolute;top:0;bottom:0;width:1px;background:#e0e0e0;z-index:5;pointer-events:none}
 .fyt-grid::before{left:calc(100%/9*3)}
 .fyt-grid::after{left:calc(100%/9*6)}
 .fyt-col{display:flex;flex-direction:column;position:relative}
@@ -415,6 +426,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
           <div id="nineGridSection2" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
           <div id="nineGridSection3" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
         </div>
+        <div class="wege-section" id="wegeSection">
+          <div class="innate-title" id="wegeTitleText">位格</div>
+          <div id="wegeBlock"></div>
+        </div>
         <div class="flow-block" id="flowBlock">
           <div id="flowYearBlock"></div>
           <div id="flowMonthBlock" style="margin-top:20px;padding-top:20px;border-top:1px solid #e8e8e8"></div>
@@ -479,6 +494,7 @@ const T={
     leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組', bd2Divider:'— 第二組生日 —',
     bd2HintPrefix:'如果你除了閏月還有第二組生日，', bd2HintOpen:'按這裡→ +', bd2HintClose:'收起 －',
     innateTitle:'先天數',
+    wegeTitle:'位格',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
     stages:['幼年','少年','青年','中年','老年'],
@@ -513,6 +529,7 @@ const T={
     leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2', bd2Divider:'— Second Birthday —',
     bd2HintPrefix:'Have a second birthday besides a leap month one? ', bd2HintOpen:'Tap here → +', bd2HintClose:'Hide －',
     innateTitle:'Innate Numbers',
+    wegeTitle:'Position',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
@@ -590,6 +607,8 @@ function applyLang(){
   document.getElementById('tab1').textContent=isLeap?t('tab1'):t('tab1no');
   document.getElementById('tab2').textContent=isLeap?t('tab2'):t('tab2no');
   document.getElementById('innateTitleText').textContent=t('innateTitle');
+  const wegeTitleEl=document.getElementById('wegeTitleText');
+  if(wegeTitleEl) wegeTitleEl.textContent=t('wegeTitle');
   const nineGridToggleBtn=document.querySelector('#innateTitle button');
   if(nineGridToggleBtn){
     const wraps=document.querySelectorAll('.nine-grid-collapsible');
@@ -889,12 +908,12 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
   const gridHtmlStr=`
     <div class="nine-grid-wrap">
       <div class="nine-grid-side">
-        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
+        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:8px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
         <div class="innate-nums" style="justify-content:center;margin-bottom:8px">${makeInnateNums(gInnate)}</div>
         <div class="nine-grid-collapsible">${makeGrid(gInnate,gPathNums,gDestNums)}</div>
       </div>
       <div class="nine-grid-side">
-        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
+        <div class="nine-grid-label" style="font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:8px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
         <div class="innate-nums" style="justify-content:center;margin-bottom:8px">${makeInnateNums(lInnate)}</div>
         <div class="nine-grid-collapsible">${makeGrid(lInnate,lPathNums,lDestNums)}</div>
       </div>
@@ -983,6 +1002,93 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
     const btn=el.querySelector('[onclick="toggleFlowSection(this)"]');
     if(btn) btn.textContent='▼';
   }
+}
+
+// ── 位格三角形：9個固定位置（順時針，左下=1，頂點=4，右下=7），目前位格顯示完整流年字串 ──
+function _wegeTrianglePoints(){
+  const BL={x:25,y:185}, BR={x:195,y:185};
+  const side=BR.x-BL.x;
+  const apex={x:(BL.x+BR.x)/2, y:BL.y-side*Math.sqrt(3)/2};
+  const lerp=(a,b,tt)=>({x:a.x+(b.x-a.x)*tt,y:a.y+(b.y-a.y)*tt});
+  return{
+    pts:[BL, lerp(BL,apex,1/3), lerp(BL,apex,2/3), apex,
+         lerp(apex,BR,1/3), lerp(apex,BR,2/3), BR,
+         lerp(BR,BL,1/3), lerp(BR,BL,2/3)],
+    apex,BL,BR
+  };
+}
+function _wegeFlowTspans(sign,str){
+  // 配色比照流年卡片：路徑段落用 #999，最後的位格數用 #1a1a1a（皆粗體，因為這裡只顯示目前流年）
+  const parts=str.split('/');
+  let out=`<tspan fill="#1a1a1a">${sign}</tspan>`;
+  parts.forEach((p,i)=>{
+    if(i===parts.length-1) out+=`<tspan fill="#1a1a1a">${p}</tspan>`;
+    else out+=`<tspan fill="#999">${p}/</tspan>`;
+  });
+  return out;
+}
+function _wegeTriangleSVG(sign,currentK,currentStr){
+  const{pts,apex,BL,BR}=_wegeTrianglePoints();
+  const cx=(apex.x+BL.x+BR.x)/3, cy=(apex.y+BL.y+BR.y)/3;
+  const margin=12,cornerMargin=margin/Math.sin(Math.PI/6);
+  const vertexInset=v=>{const dx=v.x-cx,dy=v.y-cy,len=Math.hypot(dx,dy);return{x:v.x-dx/len*cornerMargin,y:v.y-dy/len*cornerMargin};};
+  const apexIn=vertexInset(apex),BLIn=vertexInset(BL),BRIn=vertexInset(BR);
+  const lerp=(a,b,tt)=>({x:a.x+(b.x-a.x)*tt,y:a.y+(b.y-a.y)*tt});
+  const innerPts=[BLIn, lerp(BLIn,apexIn,1/3), lerp(BLIn,apexIn,2/3), apexIn,
+                  lerp(apexIn,BRIn,1/3), lerp(apexIn,BRIn,2/3), BRIn,
+                  lerp(BRIn,BLIn,1/3), lerp(BRIn,BLIn,2/3)];
+  let svg=`<svg class="wege-svg" viewBox="0 9 220 199" xmlns="http://www.w3.org/2000/svg">`;
+  svg+=`<polygon class="wege-edge" points="${apex.x},${apex.y} ${BL.x},${BL.y} ${BR.x},${BR.y}"/>`;
+  pts.forEach((p,i)=>{
+    const k=i+1;
+    const isCurrent=(k===currentK);
+    const innerX=innerPts[i].x, innerY=innerPts[i].y;
+    const r=isCurrent?3.6:2;
+    svg+=`<circle class="wege-dot${isCurrent?' current':''}" cx="${p.x}" cy="${p.y}" r="${r}"${isCurrent?' stroke="#fff" stroke-width="0.8"':''}/>`;
+    svg+=`<text class="wege-pos${isCurrent?' current':''}" x="${innerX}" y="${innerY}" text-anchor="middle" dominant-baseline="middle">${k}</text>`;
+    if(isCurrent){
+      const dx=p.x-cx, dy=p.y-cy, len=Math.hypot(dx,dy)||1;
+      const ux=dx/len, uy=dy/len;
+      const gap=7;
+      let anchor='middle', outerX=p.x, outerY=p.y+uy*14;
+      if(k===1){
+        // 位格1：顯示在點的上方、三角形左側，稍微往右上偏移避免跑出邊緣
+        anchor='end'; outerX=p.x+2; outerY=p.y-16;
+      } else if(k===7||k===8||k===9){
+        // 底邊上其餘的點固定往下方同樣距離對齊，不受uy大小影響
+        anchor='middle'; outerX=p.x; outerY=BL.y+15;
+      } else if(Math.abs(ux)>0.15){
+        anchor=ux>0?'start':'end';
+        outerX=p.x+ux*gap+(ux>0?2:-2);
+        outerY=p.y+uy*gap;
+      }
+      svg+=`<text class="wege-flow" x="${outerX}" y="${outerY}" text-anchor="${anchor}" dominant-baseline="middle">${_wegeFlowTspans(sign,currentStr)}</text>`;
+    }
+  });
+  svg+=`</svg>`;
+  return svg;
+}
+function renderWege(el,sets,todayY,todayM,todayD){
+  let html='<div class="wege-block-inner">';
+  sets.forEach((s,idx)=>{
+    const{gFY,lFY}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const gWege=((gFY-s.gregY+1)%9+9)%9||9;
+    const lWege=((lFY-s.lunY+1)%9+9)%9||9;
+    const gStage=makeStage(sumArr([...digs(gFY),...digs(s.gregM),...digs(s.gregD)]));
+    const lStage=makeStage(sumArr([...digs(lFY),...digs(s.lunM),...digs(s.lunD)]));
+    const wrap=`<div class="wege-wrap">
+      <div class="wege-side">
+        ${_wegeTriangleSVG('+',gWege,gStage.str)}
+      </div>
+      <div class="wege-side">
+        ${_wegeTriangleSVG('-',lWege,lStage.str)}
+      </div>
+    </div>`;
+    if(idx===0) html+=wrap;
+    else html+=`<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd">${wrap}</div>`;
+  });
+  html+='</div>';
+  el.innerHTML=html;
 }
 
 // ── 流月流日導航狀態 ──
@@ -1415,6 +1521,8 @@ function renderPartial(){_resetFlowNav();
     const lDestinyStr=makeStage(lDestinyTotal).str;
     renderNineGrids(gInnate,lInnate,gBreak.pathNums,lBreak.pathNums,gBreak.destinyNums,lBreak.destinyNums,gDestinyStr,lDestinyStr);
     document.getElementById('innateTitleText').textContent=t('innateTitle');
+    const wegeTitleEl2=document.getElementById('wegeTitleText');
+    if(wegeTitleEl2) wegeTitleEl2.textContent=t('wegeTitle');
     const now=new Date();
     // 流年流月流日
     const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
@@ -1480,6 +1588,7 @@ function renderPartial(){_resetFlowNav();
       document.getElementById('tab1').textContent=t('tab1no');
       document.getElementById('tab2').textContent=t('tab2no');
     }
+    renderWege(document.getElementById('wegeBlock'),flowSetsAll,nowY,nowM,nowD);
     renderFlowYear(document.getElementById('flowYearBlock'),flowSetsAll,nowY,nowM,nowD);
     _initFlowNav(flowSetsAll,nowY,nowM);
     renderFlowMonth(document.getElementById('flowMonthBlock'),flowSetsAll,nowY,nowM,nowD);
@@ -2156,6 +2265,5 @@ function takePairScreenshot(){
 }
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
